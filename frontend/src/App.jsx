@@ -4,17 +4,16 @@ import Home from './pages/Home'
 import Collection from './pages/Collection'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import Product from './pages/Product'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
-import Orders from './pages/Orders'
-import Product from './pages/Product'
 import PlaceOrder from './pages/PlaceOrder'
-
+import Orders from './pages/Orders'
 import Navbar from './components/Navbar'
 
 function App() {
     return (
-        <div>
+        <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
             <Navbar />
             <Routes>
                 <Route path='/' element={<Home />} />
