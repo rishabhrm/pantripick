@@ -7,9 +7,11 @@ import search_icon from './search_icon.png'
 import menu_icon from './menu_icon.png'
 import cross_icon from './cross_icon.png'
 import hero_img from './hero_image.jpg'
+import about_us_img from './about_us.jpg'
 
 export const assets = {
     logo,
+    about_us_img,
     // hero_img,
     cart_icon,
     dropdown_icon,

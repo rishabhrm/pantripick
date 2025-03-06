@@ -27,7 +27,7 @@ const Hero = () => {
             {/* Right Side - Image */}
             <div className='w-full sm:w-1/2 flex justify-center sm:justify-end mt-8 sm:mt-0'>
                 <img
-                    className='max-w-xs sm:max-w-md lg:max-w-lg object-cover'
+                    className='max-w-xs sm:max-w-md lg:max-w-lg object-cover rounded-xl shadow-md'
                     src={assets.hero_img}
                     alt='Fresh groceries delivered'
                 />
