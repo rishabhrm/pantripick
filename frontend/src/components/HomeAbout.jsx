@@ -3,7 +3,7 @@ import { assets } from '../assets/assets'
 
 const HomeAbout = () => {
     return (
-        <div className='flex flex-col sm:flex-row items-center justify-between px-6 sm:px-16 lg:px-24 py-10'>
+        <div className='flex flex-col sm:flex-row items-center justify-between px-6 sm:px-16 lg:px-24 py-15'>
             {/* Left Side - Text Content */}
             <div className='w-full sm:w-1/2 text-center sm:text-left'>
                 <div className='relative inline-block'>
