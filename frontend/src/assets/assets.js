@@ -1,25 +1,44 @@
-import logo from './abc.jpg'
-import cart_icon from './cart_icon.png'
-import bin_icon from './bin_icon.png'
-import dropdown_icon from './dropdown_icon.png'
-import dropup_icon from './dropup_icons.png'
-import profile_icon from './profile_icon.png'
-import search_icon from './search_icon.png'
-import menu_icon from './menu_icon.png'
-import cross_icon from './cross_icon.png'
-import hero_img from './hero_image.jpg'
-import about_us_img from './about_us.jpg'
+import cart_icon from './Icons/cart_icon.png'
+import bin_icon from './Icons/bin_icon.png'
+import dropdown_icon from './Icons/dropdown_icon.png'
+import dropup_icon from './Icons/dropup_icons.png'
+import profile_icon from './Icons/profile_icon.png'
+import search_icon from './Icons/search_icon.png'
+import menu_icon from './Icons/menu_icon.png'
+import cross_icon from './Icons/cross_icon.png'
 
-import dairyBread from './1.png'
-import fruitsVeg from './2.png'
-import drinksJuice from './3.png'
-import snacksMunchies from './4.png'
-import bakeryBiscuits from './5.png'
-import saucesSpreads from './6.png'
-import pharmaWellness from './7.png'
-import personalCare from './8.png'
-import cleaningEssentials from './9.png'
-import homeOffices from './10.png'
+import logo from './OtherImages/logo.jpg'
+import hero_img from './OtherImages/hero_image.jpg'
+import about_us_img from './OtherImages/about_us.jpg'
+
+import dairyBread from './HomeCategories/1.png'
+import fruitsVeg from './HomeCategories/2.png'
+import drinksJuice from './HomeCategories/3.png'
+import snacksMunchies from './HomeCategories/4.png'
+import bakeryBiscuits from './HomeCategories/5.png'
+import saucesSpreads from './HomeCategories/6.png'
+import pharmaWellness from './HomeCategories/7.png'
+import personalCare from './HomeCategories/8.png'
+import cleaningEssentials from './HomeCategories/9.png'
+import homeOffices from './HomeCategories/10.png'
+
+import prod1 from './ProductImages/amul-taaza.jpg'
+import prod2 from './ProductImages/amul-malai-fresh-paneer.webp'
+import prod3 from './ProductImages/amul-cheese-cubes.jpg'
+import prod4 from './ProductImages/tasties-brown-bread.jpg'
+import prod5 from './ProductImages/farm-white-eggs.webp'
+
+import prod6 from './ProductImages/apples.webp'
+import prod7 from './ProductImages/mixed-capsicum.jpg'
+import prod8 from './ProductImages/potato.jpg'
+import prod9 from './ProductImages/pineapple.jpg'
+import prod10 from './ProductImages/curry-leaves.jpg'
+
+import prod11 from './ProductImages/lays-potato-chips-indias-masala-magic.webp'
+import prod12 from './ProductImages/namkeen-chaat-papdi.jpg'
+import prod13 from './ProductImages/fresho-signature-chilly-cheese-toast.jpg'
+import prod14 from './ProductImages/dark-fantasy-cream-biscuit-choco-creme.jpg'
+import prod15 from './ProductImages/kitkat-share-bag-chocolate-covered-wafer.webp'
 
 export const assets = {
     logo,
@@ -32,7 +51,7 @@ export const assets = {
     bin_icon,
     menu_icon,
     cross_icon,
-    hero_img
+    hero_img,
 }
 
 export const homeCategories = [
@@ -48,119 +67,141 @@ export const homeCategories = [
     { name: 'Home and Offices', image: homeOffices },
 ]
 
+//Dummy Data
 export const products = [
     {
-        name: "Kellogg's Real Almond Honey Corn Flakes",
-        category: "Dairy, Bread & Eggs",
-        price: 478,
-        image: "/assets/images/cornflakes.png", // Ensure these paths are correct
+        id: 1,
+        name: 'Amul Taaza Milk',
+        category: 'Dairy, Bread & Eggs',
+        price: 28,
+        image: prod1,
+        description:
+            'Amul Taaza fresh toned milk is the excellent quality of milk sourced from Gujarat. It comes in a pouch and can be consumed directly. There is no need to boil as it has virtually zero bacteria.',
     },
     {
-        name: "Oreo",
-        category: "Dairy, Bread & Eggs",
+        id: 2,
+        name: 'Amul Fresh Malai Paneer',
+        category: 'Dairy, Bread & Eggs',
+        price: 91,
+        image: prod2,
+        description:
+            'Amul Fresh Malai Paneer offers a creamy, rich taste perfect for a variety of dishes. Made from fresh milk, this paneer is soft and smooth, adding a delightful texture to curries, snacks, and more.',
+    },
+    {
+        id: 3,
+        name: 'Amul Pure Milk Cheese Cubes',
+        category: 'Dairy, Bread & Eggs',
+        price: 518.5,
+        image: prod3,
+        description:
+            'The cubic shapes of Amul Processed Cheese Chiplets make it perfect for parties. They are best served with pineapple dices, and to add some zing, you can sprinkle some chaat masala over the cubes.',
+    },
+    {
+        id: 4,
+        name: 'Tasties Brown Bread',
+        category: 'Dairy, Bread & Eggs',
+        price: 45,
+        image: prod4,
+        description:
+            'Tasties presents freshly baked brown bread for your everyday breakfast. Enjoy the bread with your favourite accompaniments. ',
+    },
+    {
+        id: 5,
+        name: 'fresho! Farm Eggs, Regular',
+        category: 'Dairy, Bread & Eggs',
+        price: 82,
+        image: prod5,
+        description:
+            'Eggs are one of the common food items in most of the households. From breakfast to dinner, eggs are indulged in various ways. Poached, boiled, fried; we all have our own favourite choices.',
+    },
+    {
+        id: 6,
+        name: 'Shimla Apple',
+        category: 'Fruits & Vegetables',
+        price: 187,
+        image: prod6,
+        description: 'Shimla apples, known for their crisp texture and balanced sweet-tart flavour, are a favourite variety. The small-sized apples offer convenience and portion control, making them perfect for a quick snack.',
+    },
+
+    {
+        id: 7,
+        name: 'Mixed Capsicum',
+        category: 'Fruits & Vegetables',
+        price: 84,
+        image: prod7,
+        description:
+            'Bright and crisp, our organically grown capsicums bring a burst of colour and flavour to your meals. Perfect for salads, stir-fries, or roasting, these vibrant peppers offer a delightful crunch and natural sweetness.',
+    },
+    {
+        id: 8,
+        name: 'Potato',
+        category: 'Fruits & Vegetables',
+        price: 27.07,
+        image: prod8,
+        description:
+            'Potatoes are a versatile staple in cooking, prized for their mild, earthy flavour and smooth texture. They are rich in carbohydrates and contain essential nutrients like potassium, vitamin C, and fibre.',
+    },
+    {
+        id: 9,
+        name: 'Sliced Pineapple',
+        category: 'Fruits & Vegetables',
+        price: 80.16,
+        image: prod9,
+        description:
+            'Fresho offers pineapple slices that are convenient and time-saving. These sliced pineapples can be enjoyed as a snack or added to meals to make them more interesting.',
+    },
+    {
+        id: 10,
+        name: 'Curry Leaves',
+        category: 'Fruits & Vegetables',
+        price: 52.6,
+        image: prod10,
+        description:
+            'Curry leaves are an essential element of Indian cooking style, where numerous traditional and modern recipes are incomplete without curry leaves.',
+    },
+    {
+        id: 11,
+        name: "Lay's Potato Chips - India's Masala Magic",
+        category: 'Snacks & Munchies',
         price: 30,
-        image: "/assets/images/oreo.png",
+        image: prod11,
+        description:
+            'Binge on these exquisite bites of pure Masala magic! With hints of cumin, coriander, chilli powder, onion, and garlic, Magic Masala is a one-way ticket to a world of exploding flavours.',
     },
     {
-        name: "Oreo",
-        category: "Dairy, Bread & Eggs",
-        price: 30,
-        image: "/assets/images/oreo.png",
-    },
-    {
-        name: "Oreo",
-        category: "Dairy, Bread & Eggs",
-        price: 30,
-        image: "/assets/images/oreo.png",
-    },
-    {
-        name: "Amul Milk",
-        category: "Dairy, Bread & Eggs",
-        price: 55,
-        image: "/assets/images/amul-milk.png",
-    },
-    {
-        name: "Aashirvaad Atta",
-        category: "Dairy, Bread & Eggs",
-        price: 320,
-        image: "/assets/images/aashirvaad-atta.png",
-    },
-    {
-        name: "Fresh Strawberries",
-        category: "Fruits & Vegetables",
-        price: 120,
-        image: "/assets/images/strawberries.png",
-    },
-    {
-        name: "Fresh Strawberries",
-        category: "Fruits & Vegetables",
-        price: 120,
-        image: "/assets/images/strawberries.png",
-    },
-    {
-        name: "Fresh Strawberries",
-        category: "Fruits & Vegetables",
-        price: 120,
-        image: "/assets/images/strawberries.png",
-    },
-    {
-        name: "Fresh Tomatoes",
-        category: "Fruits & Vegetables",
-        price: 50,
-        image: "/assets/images/tomatoes.png",
-    },
-    {
-        name: "Pineapple",
-        category: "Fruits & Vegetables",
+        id: 12,
+        name: 'Maharashtra Chaat Papdi',
+        category: 'Snacks & Munchies',
         price: 80,
-        image: "/assets/images/pineapple.png",
+        image: prod12,
+        description:
+            'Freshly blended with traditional Maharashtrian spices and made with local recipes, our Maharashtra Chaat Namkeen Papdi - Crispy comes with a spicy tadka and is naturally processed with the finest wheat flour and local ajwain.',
     },
     {
-        name: "Vegetable Market",
-        category: "Fruits & Vegetables",
-        price: 60,
-        image: "/assets/images/vegetable-market.png",
+        id: 13,
+        name: 'fresho! Signature Chilli Garlic Butter Toast',
+        category: 'Snacks & Munchies',
+        price: 85,
+        image: prod13,
+        description:
+            "This flavourful garlic and herbs toast is all you need to make the best of those afternoons and evenings. Beat those evening blues with some chilli cheese toast. Whether it is buns, pav or pizza base, you ought to explore Fresho's range of delicious bakes.",
     },
     {
-        name: "Lays French Cheese",
-        category: "Snacks & Munchies",
-        price: 20,
-        image: "/assets/images/lays.png",
+        id: 14,
+        name: 'Sunfeast Dark Fantasy Crème',
+        category: 'Snacks & Munchies',
+        price: 50,
+        image: prod14,
+        description:
+            "One bite of this choco biscuit and you'd be lost in a world far away from normalcy. Where rivers of creamy chocolates flow free and mountains of dark chocolate stand tall.",
     },
     {
-        name: "Lays French Cheese",
-        category: "Snacks & Munchies",
-        price: 20,
-        image: "/assets/images/lays.png",
+        id: 15,
+        name: 'Nestlé KitKat Minis Chocolate Coated Wafer Bar',
+        category: 'Snacks & Munchies',
+        price: 283.1,
+        image: prod15,
+        description:
+            'Have a Break, Have a KitKat! Share your favourite treats with your favourite people and indulge in the deliciousness of Nestle KitKat Minis! This share bag contains 18 units of KitKat Minis, making it perfect for stocking up or passing around with friends and family.',
     },
-    {
-        name: "Lays French Cheese",
-        category: "Snacks & Munchies",
-        price: 20,
-        image: "/assets/images/lays.png",
-    },
-    {
-        name: "Lays French Cheese",
-        category: "Snacks & Munchies",
-        price: 20,
-        image: "/assets/images/lays.png",
-    },
-    {
-        name: "Chocolate Chip Cookies",
-        category: "Snacks & Munchies",
-        price: 40,
-        image: "/assets/images/cookies.png",
-    },
-    {
-        name: "Pringles Original",
-        category: "Snacks & Munchies",
-        price: 99,
-        image: "/assets/images/pringles.png",
-    },
-    {
-        name: "Chocos Fills",
-        category: "Snacks & Munchies",
-        price: 75,
-        image: "/assets/images/chocos-fills.png",
-    },
-];
+]

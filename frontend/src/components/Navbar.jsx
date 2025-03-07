@@ -14,7 +14,7 @@ function Navbar() {
                 </NavLink>
 
                 <NavLink
-                    to='/collection'
+                    to='/products'
                     className='flex flex-col items-center gap-1'
                 >
                     <p>PRODUCTS</p>
@@ -97,9 +97,9 @@ function Navbar() {
                     <NavLink
                         onClick={() => setVisible(false)}
                         className='py-2 pl-6 border'
-                        to='/collection'
+                        to='/products'
                     >
-                        COLLECTION
+                        PRODUCTS
                     </NavLink>
                     <NavLink
                         onClick={() => setVisible(false)}
