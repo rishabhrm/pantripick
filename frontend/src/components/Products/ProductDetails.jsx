@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { assets, products } from '../assets/assets'
+import { assets, products } from '../../assets/assets'
 
 const ProductDetails = () => {
     const { id } = useParams()
@@ -47,7 +47,9 @@ const ProductDetails = () => {
                         <p className='text-gray-600 text-sm mt-2'>
                             Category: {product.category}
                         </p>
-                        <p className='text-gray-700 mt-4'>{product.description}</p>
+                        <p className='text-gray-700 mt-4'>
+                            {product.description}
+                        </p>
                         <p className='text-black font-bold text-lg mt-4'>
                             ₹{product.price}
                         </p>

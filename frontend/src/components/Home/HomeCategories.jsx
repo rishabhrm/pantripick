@@ -1,5 +1,5 @@
 import React from 'react'
-import { homeCategories } from '../assets/assets'
+import { homeCategories } from '../../assets/assets'
 
 const ProductCategories = () => {
     return (
@@ -17,10 +17,7 @@ const ProductCategories = () => {
                 {homeCategories.map((category, index) => (
                     <div key={index} className='flex flex-col items-center'>
                         <div className='w-28 h-28 sm:w-32 sm:h-32 bg-blue-50 rounded-xl flex items-center justify-center shadow'>
-                            <img
-                                src={category.image}
-                                alt={category.name}
-                            />
+                            <img src={category.image} alt={category.name} />
                         </div>
                         <p className='text-black text-xs sm:text-sm mt-2 font-normal text-center'>
                             {category.name}

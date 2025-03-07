@@ -10,7 +10,7 @@ import Login from './pages/Login'
 import PlaceOrder from './pages/PlaceOrder'
 import Orders from './pages/Orders'
 
-import ProductDetails from './components/ProductDetails'
+import ProductDetails from './components/Products/ProductDetails'
 
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -22,13 +22,13 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/products' element={<Products />} />
+                <Route path='/product-details/:id' element={<ProductDetails />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route path='/cart' element={<Cart />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/place-orders' element={<PlaceOrder />} />
                 <Route path='/orders' element={<Orders />} />
-                <Route path='/productdetails/:id' element={<ProductDetails />} />
             </Routes>
             <Footer />
         </div>
