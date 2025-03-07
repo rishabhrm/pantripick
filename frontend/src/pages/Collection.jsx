@@ -1,8 +1,11 @@
 import React from 'react'
+import ProductsAvailable from '../components/ProductsAvailable'
 
 function Collection() {
   return (
-	<div>Collection</div>
+	<div>
+    <ProductsAvailable />
+  </div>
   )
 }
 
