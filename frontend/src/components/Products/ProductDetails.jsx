@@ -16,13 +16,13 @@ const ProductDetails = () => {
 
     return (
         <div className='px-6 sm:px-16 lg:px-24 py-15 flex justify-center'>
-            <div className='bg-white shadow-lg rounded-lg p-10 w-full max-w-5xl'>
+            <div className='bg-white border border-gray-200 rounded-lg p-10 w-full max-w-5xl'>
                 {/* Back to Shopping */}
                 <Link
                     to='/products'
                     className='text-black flex items-center text-sm mb-6'
                 >
-                    <span className='mr-2'>
+                    <span className='mr-4'>
                         <img src={assets.dropup_icon} width={9} alt='Back' />
                     </span>
                     Continue Shopping

@@ -40,6 +40,10 @@ import prod13 from './ProductImages/fresho-signature-chilly-cheese-toast.jpg'
 import prod14 from './ProductImages/dark-fantasy-cream-biscuit-choco-creme.jpg'
 import prod15 from './ProductImages/kitkat-share-bag-chocolate-covered-wafer.webp'
 
+import img1 from './OtherImages/fruits-and-veggies.jpg'
+import img2 from './OtherImages/supermarket.jpg'
+import img3 from './OtherImages/about_us.jpg'
+
 export const assets = {
     logo,
     about_us_img,
@@ -205,3 +209,9 @@ export const products = [
             'Have a Break, Have a KitKat! Share your favourite treats with your favourite people and indulge in the deliciousness of Nestle KitKat Minis! This share bag contains 18 units of KitKat Minis, making it perfect for stocking up or passing around with friends and family.',
     },
 ]
+
+export const aboutImages = [
+    { src: img1, title: "Fresh Product" },
+    { src: img2, title: "Shopping Aisle" },
+    { src: img3, title: "Store Interior" },
+];
