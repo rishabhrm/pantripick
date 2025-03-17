@@ -56,6 +56,7 @@ export const assets = {
     menu_icon,
     cross_icon,
     hero_img,
+    img2
 }
 
 export const homeCategories = [
