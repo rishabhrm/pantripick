@@ -6,6 +6,7 @@ import profile_icon from './Icons/profile_icon.png'
 import search_icon from './Icons/search_icon.png'
 import menu_icon from './Icons/menu_icon.png'
 import cross_icon from './Icons/cross_icon.png'
+import success_icon from './Icons/circle.png'
 
 import logo from './OtherImages/logo.jpg'
 import hero_img from './OtherImages/hero_image.jpg'
@@ -56,7 +57,8 @@ export const assets = {
     menu_icon,
     cross_icon,
     hero_img,
-    img2
+    img2,
+    success_icon
 }
 
 export const homeCategories = [
@@ -215,4 +217,10 @@ export const aboutImages = [
     { src: img1, title: "Fresh Product" },
     { src: img2, title: "Shopping Aisle" },
     { src: img3, title: "Store Interior" },
+];
+
+export const cartItems = [
+    { id: 1, name: 'Amul Taaza Milk', price: 27, quantity: 2, image: prod1 },
+    { id: 2, name: 'Aashirvaad Atta', price: 246, quantity: 1, image: prod2 },
+    { id: 3, name: 'Parle Poppins Candy', price: 23, quantity: 1, image: prod3 },
 ];

@@ -3,9 +3,9 @@ import ProductsAvailable from '../components/Products/ProductsAvailable'
 
 function Collection() {
   return (
-	<div>
-    <ProductsAvailable />
-  </div>
+    <div>
+      <ProductsAvailable />
+    </div>
   )
 }
 

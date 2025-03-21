@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { assets, products } from '../../assets/assets'
 
 const ProductDetails = () => {
     const { id } = useParams()
+    const navigate = useNavigate()
     const product = products.find((item) => item.id === Number(id))
 
     if (!product) {
@@ -57,7 +58,7 @@ const ProductDetails = () => {
                             (Inclusive of all taxes)
                         </p>
 
-                        <button className='mt-6 px-5 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded transition'>
+                        <button className='mt-6 px-5 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded transition' onClick={() => navigate('/cart')} >
                             Add to Cart
                         </button>
                     </div>
