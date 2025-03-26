@@ -42,6 +42,9 @@ import img1 from './OtherImages/fruits-and-veggies.jpg'
 import img2 from './OtherImages/supermarket.jpg'
 import img3 from './OtherImages/about_us.jpg'
 
+import SignupImage from './OtherImages/Signupimg.jpeg'
+
+
 export const assets = {
     logo,
     about_us_img,
@@ -52,7 +55,8 @@ export const assets = {
     cross_icon,
     hero_img,
     img2,
-    success_icon
+    success_icon,
+    SignupImage
 }
 
 export const homeCategories = [

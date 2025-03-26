@@ -16,6 +16,8 @@ import ProductDetails from './components/Products/ProductDetails'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
+import AdminLogin from './AdminPages/adminlogin';
+
 function App() {
   return (
     <>
@@ -31,6 +33,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/checkout/:total' element={<Checkout />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
+                {/* Admin Routes */}
+                <Route path='/admin' element={<AdminLogin />} />
         </Routes>
       </div>
       <Footer />
