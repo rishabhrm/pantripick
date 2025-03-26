@@ -16,7 +16,7 @@ import ProductDetails from './components/Products/ProductDetails'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
-import AdminLogin from './adminPages/adminlogin';
+import AdminLogin from './pages/adminpages/AdminLogin';
 
 function App() {
   return (
