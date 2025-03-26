@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { assets, cartItems as initialCart } from '../../assets/assets'
+import { cartItems as initialCart } from '../../assets/assets'
+import { FiChevronLeft } from 'react-icons/fi'
 
 const CartItems = () => {
   const [cart, setCart] = useState(initialCart)
@@ -25,7 +26,7 @@ const CartItems = () => {
           to='/products'
           className='text-black flex items-center text-sm mb-6'
         >
-          <img src={assets.dropup_icon} width={9} alt='Back' className='mr-4' />
+          <FiChevronLeft className='mr-2 text-lg' />
           Continue Shopping
         </Link>
         <div className='relative inline-block mb-6'>

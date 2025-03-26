@@ -1,9 +1,6 @@
-import cart_icon from './Icons/cart_icon.png'
 import bin_icon from './Icons/bin_icon.png'
 import dropdown_icon from './Icons/dropdown_icon.png'
 import dropup_icon from './Icons/dropup_icons.png'
-import profile_icon from './Icons/profile_icon.png'
-import search_icon from './Icons/search_icon.png'
 import menu_icon from './Icons/menu_icon.png'
 import cross_icon from './Icons/cross_icon.png'
 import success_icon from './Icons/circle.png'
@@ -48,11 +45,8 @@ import img3 from './OtherImages/about_us.jpg'
 export const assets = {
     logo,
     about_us_img,
-    cart_icon,
     dropdown_icon,
     dropup_icon,
-    profile_icon,
-    search_icon,
     bin_icon,
     menu_icon,
     cross_icon,

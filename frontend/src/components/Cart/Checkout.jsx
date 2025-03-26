@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { assets } from '../../assets/assets'
+import { FiChevronLeft } from 'react-icons/fi'
 
 const Checkout = () => {
   const { total } = useParams()
@@ -29,8 +29,11 @@ const Checkout = () => {
   return (
     <div className='px-4 sm:px-12 lg:px-16 py-8 flex justify-center'>
       <div className='bg-white border border-gray-200 rounded-lg p-6 w-full max-w-3xl'>
-        <Link to='/cart' className='text-black flex items-center text-sm mb-6'>
-          <img src={assets.dropup_icon} width={9} alt='Back' className='mr-4' />
+        <Link
+          to='/cart'
+          className='text-black flex items-center text-sm mb-6'
+        >
+          <FiChevronLeft className='mr-2 text-lg' />
           Back to cart
         </Link>
         <div className='relative inline-block mb-6 py-3'>

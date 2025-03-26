@@ -15,14 +15,14 @@ function Contact() {
       {/* Image Section */}
       <div className='flex flex-col sm:flex-row items-center gap-6 mb-6'>
         <img
-          className='w-68 h-82 object-cover rounded-lg shadow-lg'
+          className='w-78 h-86 object-cover rounded-lg shadow-lg'
           src={assets.img2}
           alt='Our Store'
         />
 
         {/* Contact Details */}
         <div className='text-black'>
-          <h3 className='text-xl sm:text-2xl font-semibold text-blue-700 mb-3'>
+          <h3 className='text-xl sm:text-2xl font-semibold text-black-700 mb-3'>
             Our Store
           </h3>
           <p className='text-sm sm:text-base'>Address Line 1</p>
