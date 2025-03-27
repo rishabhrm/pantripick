@@ -13,7 +13,7 @@ const OTP = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Entered OTP:", otp);
-        navigate("/login");
+        navigate("/change-password");
     };
 
     return (

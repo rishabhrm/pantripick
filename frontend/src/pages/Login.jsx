@@ -49,7 +49,7 @@ function Login() {
           Admin Login
         </button>
         <div className="flex justify-between items-center mt-4 text-sm">
-          <a href="/forgot" className="text-black-500 hover:underline">
+          <a href="/reset-password" className="text-black-500 hover:underline">
             Forgot Password?
           </a>
           <span className="text-black-500 ml-1">|</span>
