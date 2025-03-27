@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 import { Link, NavLink } from 'react-router-dom'
 import { FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi'
 
 function Navbar() {
   const [visible, setVisible] = useState(false)
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' && search.trim()) {
+      navigate(`/search?q=${search.trim()}`)
+    }
+  }
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
@@ -34,9 +42,10 @@ function Navbar() {
           <FiSearch className='absolute left-3 text-gray-500' />
           <input
             type='text'
-            placeholder='Search here'
+            placeholder='Search products here'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={handleSearch}
             className='pl-10 pr-4 py-2 w-60 rounded-full border border-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400'
           />
         </div>

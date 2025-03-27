@@ -13,10 +13,12 @@ import Checkout from './components/Cart/Checkout'
 import OrderConfirmation from './components/Cart/OrderConfirmation'
 import ProductDetails from './components/Products/ProductDetails'
 
+import SearchResults from './components/Products/SearchResults'
+
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
-import AdminLogin from './pages/adminpages/AdminLogin';
+import AdminLogin from './pages/adminpages/AdminLogin'
 
 function App() {
   return (
@@ -33,8 +35,9 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/checkout/:total' element={<Checkout />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
-                {/* Admin Routes */}
-                <Route path='/admin' element={<AdminLogin />} />
+          <Route path="/search" element={<SearchResults />} />
+          {/* Admin Routes */}
+          <Route path='/admin' element={<AdminLogin />} />
         </Routes>
       </div>
       <Footer />

@@ -1,4 +1,4 @@
-const p1 = require('../database/connectionDB')
+const p1 = require('../config/db')
 const o1 = p1.ConnectionObj()
 const FetchuserFunction = (req, res) => {
   try {
@@ -14,6 +14,7 @@ const FetchuserFunction = (req, res) => {
     res.status(500).json({ error: 'error in executing query' })
   }
 }
+
 const SaveuserFunction = (req, res) => {
   try {
     // console.log(req);
@@ -25,7 +26,7 @@ const SaveuserFunction = (req, res) => {
       `INSERT INTO table1 (field1, field2, field3) VALUES ('${v1}',${v2},'${v3}');`,
       (error, result) => {
         if (error) res.status(500).json({ error: 'error in executing query' })
-        res.json(result.rows)
+        res.json(result)
       }
     )
   } catch {
