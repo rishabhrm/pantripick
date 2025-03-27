@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink } from 'react-router-dom'
-import { FiSearch, FiUser, FiShoppingCart } from 'react-icons/fi'
+import { FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi'
 
 function Navbar() {
   const [visible, setVisible] = useState(false)
+  const [search, setSearch] = useState('')
+
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
       <img src={assets.logo} className='w-36' />
@@ -13,17 +15,14 @@ function Navbar() {
           <p>HOME</p>
           <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
         </NavLink>
-
         <NavLink to='/products' className='flex flex-col items-center gap-1'>
           <p>PRODUCTS</p>
           <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
         </NavLink>
-
         <NavLink to='/about' className='flex flex-col items-center gap-1'>
           <p>ABOUT</p>
           <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
         </NavLink>
-
         <NavLink to='/contact' className='flex flex-col items-center gap-1'>
           <p>CONTACT</p>
           <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
@@ -31,7 +30,16 @@ function Navbar() {
       </ul>
 
       <div className='flex items-center gap-6'>
-        <FiSearch className='w-6 h-6 cursor-pointer' />
+        <div className='relative flex items-center'>
+          <FiSearch className='absolute left-3 text-gray-500' />
+          <input
+            type='text'
+            placeholder='Search here'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className='pl-10 pr-4 py-2 w-60 rounded-full border border-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400'
+          />
+        </div>
 
         <div className='group relative'>
           <FiUser className='w-6 h-6 cursor-pointer' />
