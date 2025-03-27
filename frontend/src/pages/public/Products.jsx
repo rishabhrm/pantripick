@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductsAvailable from '../components/Products/ProductsAvailable'
+import ProductsAvailable from '../../components/public/Products/ProductsAvailable'
 
 function Collection() {
   return (

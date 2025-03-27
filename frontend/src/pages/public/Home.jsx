@@ -1,7 +1,7 @@
 import React from 'react'
-import Hero from '../components/Home/Hero'
-import ProductCategories from '../components/Home/HomeCategories'
-import HomeAbout from '../components/Home/HomeAbout'
+import Hero from '../../components/public/Home/Hero'
+import ProductCategories from '../../components/public/Home/HomeCategories'
+import HomeAbout from '../../components/public/Home/HomeAbout'
 
 function Home() {
     return (

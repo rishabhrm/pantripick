@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { products } from '../../assets/assets'
+import { products } from '../../../assets/assets'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { FiChevronLeft, FiMinus, FiPlus } from 'react-icons/fi'
 

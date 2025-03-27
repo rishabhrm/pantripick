@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { assets, products } from '../../assets/assets'
+import { assets, products } from '../../../assets/assets'
 import { useNavigate } from 'react-router-dom'
 
 const ProductList = () => {

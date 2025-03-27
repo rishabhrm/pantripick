@@ -1,28 +1,32 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import Home from './pages/Home'
-import Products from './pages/Products'
-import About from './pages/About'
-import Contact from './pages/Contact'
-import Cart from './pages/Cart'
+//Basic Components
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
+// Public Pages
+import Home from './pages/public/Home'
+import Products from './pages/public/Products'
+import About from './pages/public/About'
+import Contact from './pages/public/Contact'
+import Cart from './pages/public/Cart'
+import Profile from './pages/public/Profile'
+
+//Public Components
+import Checkout from './components/public/Cart/Checkout'
+import OrderConfirmation from './components/public/Cart/OrderConfirmation'
+import ProductDetails from './components/public/Products/ProductDetails'
+import SearchResults from './components/public/Products/SearchResults'
+
+//Account Pages
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import OTP from './pages/OTP'
-
-
-
 import ResetPassword from './pages/Reset'
 import ChangePassword from './pages/ChangePassword'
 
-
-import Checkout from './components/Cart/Checkout'
-import OrderConfirmation from './components/Cart/OrderConfirmation'
-import ProductDetails from './components/Products/ProductDetails'
-import SearchResults from './components/Products/SearchResults'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+// Admin Pages
 import AdminLogin from './pages/adminpages/AdminLogin'
 
 function App() {
@@ -37,17 +41,15 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/profile' element={<Profile />} />
+		      <Route path='/checkout/:total' element={<Checkout />} />
+          <Route path='/order-confirmation' element={<OrderConfirmation />} />
+          <Route path="/search" element={<SearchResults />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/otp' element={<OTP />} />
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
-
-
-          <Route path='/checkout/:total' element={<Checkout />} />
-          <Route path='/order-confirmation' element={<OrderConfirmation />} />
-          <Route path="/search" element={<SearchResults />} />
-          {/* Admin Routes */}
           <Route path='/admin' element={<AdminLogin />} />
         </Routes>
       </div>

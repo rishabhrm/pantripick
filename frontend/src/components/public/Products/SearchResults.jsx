@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { FiChevronLeft } from 'react-icons/fi'
-import { products } from '../../assets/assets'
+import { products } from '../../../assets/assets'
 
 const SearchResults = () => {
   const navigate = useNavigate()

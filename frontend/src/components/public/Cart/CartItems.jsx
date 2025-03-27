@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { cartItems as initialCart } from '../../assets/assets'
+import { cartItems as initialCart } from '../../../assets/assets'
 import { FiChevronLeft } from 'react-icons/fi'
 
 const CartItems = () => {
