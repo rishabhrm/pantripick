@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-    const navigate = useNavigate(); // Initialize navigate function
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        name: "",
+        firstName: "",
+        phone: "",
         email: "",
+        address: "",
+        city: "",
         password: "",
+        confirmPassword: "",
     });
 
     const handleChange = (e) => {
@@ -15,8 +19,17 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Validate password match
+        if (formData.password !== formData.confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
         console.log("User Data:", formData);
-        navigate("/login"); // Redirect to login page after successful signup
+
+        // Proceed with signup (API call, Firebase, etc.)
+        navigate("/login");
     };
 
     return (
@@ -25,37 +38,84 @@ const SignUp = () => {
                 <h2 className="text-2xl font-bold text-center mb-4">
                     SIGN UP <span className="font-bold-500">HERE</span>
                 </h2>
-                <form onSubmit={handleSubmit}>
+                <form
+                    onSubmit={handleSubmit}
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                >
                     <input
                         type="text"
-                        name="name"
+                        name="firstName"
                         placeholder="Name"
-                        value={formData.name}
+                        value={formData.firstName}
                         onChange={handleChange}
-                        className="w-full p-3 mb-3 border border-orange-400 rounded-md focus:outline-none"
+                        className="border border-orange-400 p-2 rounded col-span-2 focus:outline-none"
                         required
                     />
                     <input
                         type="email"
                         name="email"
-                        placeholder="E-mail address"
+                        placeholder="Email address"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full p-3 mb-3 border border-orange-400 rounded-md focus:outline-none"
+                        className="border border-orange-400 p-2 rounded focus:outline-none"
                         required
                     />
+
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="Phone number"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="border border-orange-400 p-2 rounded  focus:outline-none"
+                        required
+                    />
+
+
+
+                    <input
+                        type="text"
+                        name="address"
+                        placeholder="Address Line"
+                        value={formData.address}
+                        onChange={handleChange}
+                        className="border border-orange-400 p-2 rounded col-span-2 focus:outline-none"
+                        required
+                    />
+
+                    <input
+                        type="text"
+                        name="city"
+                        placeholder="City"
+                        value={formData.city}
+                        onChange={handleChange}
+                        className="border border-orange-400 p-2 rounded col-span-2 focus:outline-none"
+                        required
+                    />
+
                     <input
                         type="password"
                         name="password"
                         placeholder="Password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full p-3 mb-3 border border-orange-400 rounded-md focus:outline-none"
+                        className="w-full p-3 border border-orange-400 rounded-md focus:outline-none"
                         required
                     />
+
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-orange-400 rounded-md focus:outline-none"
+                        required
+                    />
+
                     <button
                         type="submit"
-                        className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition"
+                        className="bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition col-span-2"
                     >
                         Signup
                     </button>
@@ -63,7 +123,7 @@ const SignUp = () => {
                 <p className="text-center mt-4 text-gray-600">
                     Already a member?{" "}
                     <button
-                        onClick={() => navigate("/login")} // Use useNavigate instead of <a href>
+                        onClick={() => navigate("/login")}
                         className="text-blue-500 underline"
                     >
                         Login
