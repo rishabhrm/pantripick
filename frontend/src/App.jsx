@@ -27,7 +27,8 @@ import ResetPassword from './pages/Reset'
 import ChangePassword from './pages/ChangePassword'
 
 // Admin Pages
-import AdminLogin from './pages/adminpages/AdminLogin'
+import AdminLogin from './pages/admin/AdminLogin'
+import UserList from './pages/admin/userList'
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path='/admin' element={<AdminLogin />} />
+          <Route path='/userlist' element={<UserList />} />
         </Routes>
       </div>
       <Footer />
