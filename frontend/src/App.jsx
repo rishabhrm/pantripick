@@ -20,11 +20,12 @@ import ProductDetails from './components/public/Products/ProductDetails'
 import SearchResults from './components/public/Products/SearchResults'
 
 //Account Pages
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import OTP from './pages/OTP'
-import ResetPassword from './pages/Reset'
-import ChangePassword from './pages/ChangePassword'
+import Login from './pages/account/Login'
+import Signup from './pages/account/SignUp'
+import OTP from './pages/account/OTP'
+import ResetPassword from './pages/account/Reset'
+import ChangePassword from './pages/account/ChangePassword'
+import EditProfile from './pages/account/Edit'
 
 // Admin Pages
 import AdminLogin from './pages/admin/AdminLogin'
@@ -51,6 +52,7 @@ function App() {
           <Route path='/otp' element={<OTP />} />
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/edit" element={<EditProfile />} />
           <Route path='/admin' element={<AdminLogin />} />
           <Route path='/userlist' element={<UserList />} />
         </Routes>
