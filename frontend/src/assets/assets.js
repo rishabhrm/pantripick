@@ -42,8 +42,18 @@ import img1 from './OtherImages/fruits-and-veggies.jpg'
 import img2 from './OtherImages/supermarket.jpg'
 import img3 from './OtherImages/about_us.jpg'
 
+
+// Importing SignupImage
 import SignupImage from './OtherImages/Signupimg.jpeg'
 
+// Importing ItemListImages
+import AmulCheeseBlock from './ItemListImages/AmulCheeseBlock.jpeg';
+import Biscuits from './ItemListImages/Biscuits.jpg';
+import Bread from './ItemListImages/bread.webp';
+import Dahi from './ItemListImages/dahi.webp';
+import Eggs from './ItemListImages/eggs.webp';
+import Kelloggs from './ItemListImages/keloggs.jpg';
+import Oats from './ItemListImages/Quaker Rolled Oats.jpeg';
 
 export const assets = {
     logo,
@@ -56,7 +66,16 @@ export const assets = {
     hero_img,
     img2,
     success_icon,
-    SignupImage
+    SignupImage, 
+
+    // ItemList Images
+    AmulCheeseBlock,
+    Biscuits,
+    Bread,
+    Dahi,
+    Eggs,
+    Kelloggs,
+    Oats
 }
 
 export const homeCategories = [
