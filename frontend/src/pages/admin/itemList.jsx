@@ -11,6 +11,7 @@ const ItemList = () => {
     { id: 5, name: "Britannia Brown Bread", qty: 17, price: 50, img: assets.Bread },
     { id: 6, name: "Good Day Biscuits", qty: 10, price: 100, img: assets.Biscuits },
     { id: 7, name: "Honey Corn Flakes", qty: 32, price: 77, img: assets.Kelloggs },
+    
   ]);
 
   const handleSearch = (e) => {

@@ -68,6 +68,7 @@ export const assets = {
     success_icon,
     SignupImage, 
 
+    
     // ItemList Images
     AmulCheeseBlock,
     Biscuits,
