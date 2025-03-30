@@ -31,6 +31,9 @@ import EditProfile from './pages/account/Edit'
 import AdminLogin from './pages/admin/AdminLogin'
 import UserList from './pages/admin/userList'
 import ItemList from './pages/admin/itemList'
+import AddProduct from "./pages/admin/AddProduct"
+import AllOrders from "./pages/admin/Order"; 
+
 
 
 function App() {
@@ -58,7 +61,8 @@ function App() {
           <Route path='/admin' element={<AdminLogin />} />
           <Route path='/userlist' element={<UserList />} />
           <Route path='/itemlist' element={<ItemList />} />
-
+          <Route path="/addproduct" element={<AddProduct />} />
+          <Route path="/order" element={<AllOrders />} />
         </Routes>
       </div>
       <Footer />
