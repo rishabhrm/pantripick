@@ -66,9 +66,10 @@ export const assets = {
     hero_img,
     img2,
     success_icon,
+    
     SignupImage, 
 
-    
+
     // ItemList Images
     AmulCheeseBlock,
     Biscuits,
