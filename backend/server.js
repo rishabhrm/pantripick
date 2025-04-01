@@ -1,23 +1,35 @@
-const express = require('express')
-var cors = require('cors')
-const app = express()
-const port = 4567
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const path = require('path');
+const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
 
-const m1 = require('./controllers/crudOperations')
+// Load environment variables
+dotenv.config();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+// App Config
+const app = express();
+const port = process.env.PORT || 4567;
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+// Serve static images
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
+// API Endpoints
 app.get('/', (req, res) => {
-  res.send('Server is ready')
-})
+  res.send('Server is ready');
+});
 
-app.get('/api/getuser', m1.FetchuserFunction)
-app.get('/api/storeuser', m1.SaveuserFunction)
-app.post('/api/deleteuser', m1.DeleteuserFunction)
-app.post('/api/updateuser', m1.UpdateuserFunction)
+// Register Routes
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
 
+// Start Server
 app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`)
-})
+  console.log(`Server started at http://localhost:${port}`);
+});

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { CartProvider } from "./context/cartContext";
 
 //Basic Components
 import Navbar from './components/Navbar'
@@ -38,7 +39,7 @@ import AllOrders from "./pages/admin/Order";
 
 function App() {
   return (
-    <>
+    <CartProvider>
       <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
         <Navbar />
         <Routes>
@@ -66,7 +67,7 @@ function App() {
         </Routes>
       </div>
       <Footer />
-    </>
+    </CartProvider>
   )
 }
 

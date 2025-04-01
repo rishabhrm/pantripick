@@ -1,13 +1,16 @@
-const Pool = require('pg').Pool
+const { Pool } = require('pg') // Assuming you're using PostgreSQL
+require('dotenv').config()
+
 function ConnectionObj() {
   const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'pantripick',
-    password: '1234',
-    port: 5432,
-    max: 20,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
   })
+
   return pool
 }
+
 module.exports = { ConnectionObj }
