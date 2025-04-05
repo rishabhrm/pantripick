@@ -1,67 +1,87 @@
-const pool = require('../config/db'); // Import the database pool
+const { ConnectionObj } = require('../config/db')
+const db = ConnectionObj()
 
-// Fetch all users
-const FetchUser = (req, res) => {
-  pool.query('SELECT * FROM users_table;', (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Error executing query' });
-    }
-    res.json(result.rows);
-  });
-};
+const FetchUser = async (req, res) => {
+  const result = await db.query('SELECT * FROM users_table;')
+  res.json({ users: result.rows })
+}
 
-// Register a new user
-const RegisterUser = (req, res) => {
-  const { var1, var2, var3 } = req.body;
+const RegisterUser = async (req, res) => {
+  const { u_name, u_email, u_password, u_phone, u_address, u_city } = req.body
+  const result = await db.query(
+    `INSERT INTO users_table 
+     (u_name, u_email, u_password, u_phone, u_address, u_city) 
+     VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`,
+    [u_name, u_email, u_password, u_phone, u_address, u_city]
+  )
+  res.json({ user: result.rows[0] })
+}
 
-  const query = 'INSERT INTO users_table (u_name, u_email, u_password) VALUES ($1, $2, $3) RETURNING *;';
-  const values = [var1, var2, var3];
+const UpdateUser = async (req, res) => {
+  const { u_id, u_name, u_email, u_phone, u_address, u_city } = req.body
+  const result = await db.query(
+    `UPDATE users_table 
+     SET u_name = $1, u_email = $2, u_phone = $3, u_address = $4, u_city = $5 
+     WHERE u_id = $6 RETURNING *;`,
+    [u_name, u_email, u_phone, u_address, u_city, u_id]
+  )
+  res.json({ updatedUser: result.rows[0] })
+}
 
-  pool.query(query, values, (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Error executing query' });
-    }
-    res.json(result.rows[0]);
-  });
-};
+const DeleteUser = async (req, res) => {
+  const { u_id } = req.body
+  const result = await db.query(
+    'DELETE FROM users_table WHERE u_id = $1 RETURNING *;',
+    [u_id]
+  )
+  res.json({ deletedUser: result.rows[0] })
+}
 
-// Update user details
-const UpdateUser = (req, res) => {
-  const { var1, var2, var3 } = req.body;
+const LoginUser = async (req, res) => {
+  const { email, password } = req.body
+  const result = await db.query(
+    'SELECT * FROM users_table WHERE u_email = $1;',
+    [email]
+  )
+  const user = result.rows[0]
 
-  const query = 'UPDATE users_table SET field1 = $1, field3 = $2 WHERE field2 = $3 RETURNING *;';
-  const values = [var1, var3, var2];
+  if (!user || user.u_password !== password) {
+    return res
+      .status(401)
+      .json({ error: !user ? 'User not found' : 'Invalid password' })
+  }
 
-  pool.query(query, values, (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Error executing query' });
-    }
-    res.json(result.rows);
-  });
-};
+  req.session.user = {
+    firstName: user.u_name,
+    email: user.u_email,
+    phone: user.u_phone,
+    address: user.u_address,
+  }
 
-// Delete a user
-const DeleteUser = (req, res) => {
-  const { var2 } = req.body;
+  res.json({ message: 'Login successful', user: req.session.user })
+}
 
-  const query = 'DELETE FROM users_table WHERE field2 = $1 RETURNING *;';
-  const values = [var2];
+const SessionUser = (req, res) => {
+  if (req.session.user) {
+    res.json({ user: req.session.user })
+  } else {
+    res.status(401).json({ message: 'Not logged in' })
+  }
+}
 
-  pool.query(query, values, (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Error executing query' });
-    }
-    res.json(result.rows);
-  });
-};
+const LogoutUser = (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid')
+    res.json({ message: 'Logged out successfully' })
+  })
+}
 
 module.exports = {
   FetchUser,
   RegisterUser,
   UpdateUser,
   DeleteUser,
-};
+  LoginUser,
+  SessionUser,
+  LogoutUser
+}

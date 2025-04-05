@@ -1,30 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FiChevronLeft, FiMinus, FiPlus } from 'react-icons/fi';
-import { useCart } from '../../../context/cartContext'; // Import Cart Context
 import axios from 'axios';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart(); // Use Cart Context
 
-  const [product, setProduct] = useState(null); // Store product data
-  const [quantity, setQuantity] = useState(1); // Quantity of product to add to cart
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fetch product by ID from backend
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://localhost:4567/api/products/${id}`);
-        setProduct(response.data.product); // Set the fetched product
-        setLoading(false); // Set loading to false once data is fetched
+        setProduct(response.data.product);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching product:', error);
-        setError('Failed to load product details.'); // Set error message
-        setLoading(false); // Set loading to false even if there's an error
+        setError('Failed to load product details.');
+        setLoading(false);
       }
     };
 
@@ -34,19 +31,30 @@ const ProductDetails = () => {
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  // Show loading or error state if data is being fetched
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleAddToCart = async () => {
+    if (!product?.id) return;
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    try {
+      await axios.post(
+        'http://localhost:4567/api/cart/add',
+        {
+          productId: product.id,
+          quantity: quantity,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      navigate('/cart');
+    } catch (err) {
+      console.error('Error adding to cart:', err.response?.data || err.message);
+      alert('Something went wrong while adding to cart.');
+    }
+  };
 
-  // If product is not found, show a message
-  if (!product) {
-    return <div>Product not found.</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!product) return <div>Product not found.</div>;
 
   return (
     <div className="px-6 sm:px-16 lg:px-24 py-15 flex justify-center">
@@ -88,10 +96,7 @@ const ProductDetails = () => {
 
               <button
                 className="px-5 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded transition"
-                onClick={() => {
-                  addToCart(product, quantity);
-                  navigate('/cart');
-                }}
+                onClick={handleAddToCart}
               >
                 Add to Cart
               </button>

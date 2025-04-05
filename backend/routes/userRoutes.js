@@ -6,5 +6,8 @@ router.get('/fetch-user', userController.FetchUser)
 router.post('/register-user', userController.RegisterUser)
 router.post('/update-user', userController.UpdateUser)
 router.post('/delete-user', userController.DeleteUser)
+router.post('/login-user', userController.LoginUser)
+router.get('/session-user', userController.SessionUser)
+router.post('/logout', userController.LogoutUser)
 
 module.exports = router

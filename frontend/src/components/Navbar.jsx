@@ -53,8 +53,25 @@ function Navbar() {
           <FiUser className='w-6 h-6 cursor-pointer' />
           <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
-              <a href='/profile' className='cursor-pointer hover:text-black'>Profile</a>
-              <a className='cursor-pointer hover:text-black'>Logout</a>
+              <a href='/profile' className='cursor-pointer hover:text-black'>
+                Profile
+              </a>
+              <a
+                onClick={async () => {
+                  try {
+                    await fetch('http://localhost:4567/api/users/logout', {
+                      method: 'POST',
+                      credentials: 'include',
+                    })
+                    navigate('/login')
+                  } catch (error) {
+                    console.error('Logout error:', error)
+                  }
+                }}
+                className='cursor-pointer hover:text-black'
+              >
+                Logout
+              </a>
             </div>
           </div>
         </div>

@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiCheckCircle } from 'react-icons/fi';
+import axios from 'axios';
 
 const OrderConfirmation = () => {
   const [orderDetails, setOrderDetails] = useState(null);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
-    const storedAddress = JSON.parse(localStorage.getItem('checkoutForm')) || {};
+    const fetchCartAndAddress = async () => {
+      try {
+        const res = await axios.get('/api/cart'); // Adjust this route to match your backend
+        const cartItems = res.data.cart || [];
 
-    const totalPrice = storedCart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const storedAddress = JSON.parse(localStorage.getItem('checkoutForm')) || {};
 
-    setOrderDetails({ cart: storedCart, address: storedAddress });
-    setTotal(totalPrice);
+        const totalPrice = cartItems.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+
+        setOrderDetails({ cart: cartItems, address: storedAddress });
+        setTotal(totalPrice);
+      } catch (err) {
+        console.error('Error fetching cart items:', err);
+      }
+    };
+
+    fetchCartAndAddress();
   }, []);
 
   return (
@@ -33,7 +47,7 @@ const OrderConfirmation = () => {
         {orderDetails && (
           <>
             <h3 className="text-lg font-semibold mb-3">Order Summary</h3>
-            <div className="border border-gray-200 rounded-lg mb-6">
+            <div className="border border-gray-200 rounded-lg mb-6 overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-gray-200">
