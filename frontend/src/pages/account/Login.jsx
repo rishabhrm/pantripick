@@ -20,6 +20,7 @@ function Login() {
       if (response.data && response.data.user) {
         console.log('Login successful:', response.data.user)
         navigate('/')
+        window.location.reload()
       } else {
         alert('Invalid credentials!')
       }

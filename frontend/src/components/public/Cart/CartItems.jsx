@@ -9,52 +9,29 @@ const CartItems = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchCartItems = async () => {
-    try {
-      const response = await axios.get('http://localhost:4567/api/cart', {
-        withCredentials: true,
-      });
-      setCartItems(response.data.cart || []);
-    } catch (err) {
-      console.error('Failed to load cart:', err.response?.data || err.message);
-      setCartItems([]);
-    } finally {
-      setLoading(false);
-    }
+    const response = await axios.get('http://localhost:4567/api/cart', {
+      withCredentials: true,
+    });
+    setCartItems(response.data.cart);
+    setLoading(false);
   };
 
   const updateQuantity = async (productId, change) => {
-    const item = cartItems.find((item) => item.id === productId);
-    if (!item) return;
-
-    const newQuantity = item.quantity + change;
-    if (newQuantity <= 0) return; // Don't allow less than 1
-
-    try {
-      await axios.post(
-        'http://localhost:4567/api/cart/add',
-        {
-          productId,
-          quantity: change, // Just send the delta
-        },
-        { withCredentials: true }
-      );
-      fetchCartItems(); // Refresh after update
-    } catch (err) {
-      console.error('Failed to update quantity:', err.response?.data || err.message);
-    }
+    await axios.post(
+      'http://localhost:4567/api/cart/update',
+      { productId, change },
+      { withCredentials: true }
+    );
+    fetchCartItems();
   };
 
   const removeItem = async (productId) => {
-    try {
-      await axios.post(
-        'http://localhost:4567/api/cart/remove',
-        { productId },
-        { withCredentials: true }
-      );
-      fetchCartItems(); // Refresh after remove
-    } catch (err) {
-      console.error('Failed to remove item:', err.response?.data || err.message);
-    }
+    await axios.post(
+      'http://localhost:4567/api/cart/remove',
+      { productId },
+      { withCredentials: true }
+    );
+    fetchCartItems();
   };
 
   useEffect(() => {
@@ -80,9 +57,11 @@ const CartItems = () => {
           <span className='absolute left-full top-1/2 -translate-y-1/2 ml-3 w-16 border-t-2 border-black'></span>
         </div>
 
-        {cartItems.length === 0 ? (
+        {cartItems.length === 0 && (
           <p className="text-gray-500 text-center">Your cart is empty.</p>
-        ) : (
+        )}
+
+        {cartItems.length > 0 && (
           <>
             <div className='border border-gray-200 rounded-lg overflow-x-auto'>
               <table className='w-full text-left border-collapse'>
@@ -99,7 +78,11 @@ const CartItems = () => {
                   {cartItems.map(({ id, image, name, price, quantity }) => (
                     <tr key={id} className='border-b border-gray-200'>
                       <td className='p-3 flex items-center'>
-                        <img src={image} alt={name} className='w-12 h-12 mr-4 object-cover rounded' />
+                        <img
+                          src={`http://localhost:4567/${image}`}
+                          alt={name}
+                          className='w-12 h-12 mr-4 object-cover rounded'
+                        />
                         {name}
                       </td>
                       <td className='p-3'>₹{price}</td>

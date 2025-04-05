@@ -20,7 +20,6 @@ const Checkout = () => {
 
   const [errors, setErrors] = useState({});
 
-  // Load saved address details from localStorage (if available)
   useEffect(() => {
     const savedData = localStorage.getItem('checkoutForm');
     if (savedData) {
@@ -54,7 +53,7 @@ const Checkout = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      localStorage.setItem('checkoutForm', JSON.stringify(formData)); // Save form data
+      localStorage.setItem('checkoutForm', JSON.stringify(formData));
       console.log('Order Placed:', formData);
       navigate(`/order-confirmation`);
     }

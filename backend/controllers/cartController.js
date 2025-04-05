@@ -15,10 +15,11 @@ const getCart = async (req, res) => {
     FROM cart_table c
     JOIN products p ON c.product_id = p.id
     WHERE c.user_email = $1
+    ORDER BY p.id
     `,
     [userEmail]
   )
-
+  
   res.json({ cart: result.rows || [] })
 }
 

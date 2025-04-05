@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
-import { assets } from '../assets/assets'
-import { useNavigate } from 'react-router-dom'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, NavLink, Link } from 'react-router-dom'
 import { FiUser, FiShoppingCart, FiSearch } from 'react-icons/fi'
+import { assets } from '../assets/assets'
 
-function Navbar() {
+const Navbar = () => {
   const [search, setSearch] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    fetch('http://localhost:4567/api/users/session-user', {
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => setLoggedIn(!!data.user))
+  }, [])
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' && search.trim()) {
@@ -17,23 +25,18 @@ function Navbar() {
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
       <img src={assets.logo} className='w-36' />
+
       <ul className='hidden sm:flex gap-5 text-sm text-gray-700'>
-        <NavLink to='/' className='flex flex-col items-center gap-1'>
-          <p>HOME</p>
-          <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
-        </NavLink>
-        <NavLink to='/products' className='flex flex-col items-center gap-1'>
-          <p>PRODUCTS</p>
-          <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
-        </NavLink>
-        <NavLink to='/about' className='flex flex-col items-center gap-1'>
-          <p>ABOUT</p>
-          <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
-        </NavLink>
-        <NavLink to='/contact' className='flex flex-col items-center gap-1'>
-          <p>CONTACT</p>
-          <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
-        </NavLink>
+        {['/', '/products', '/about', '/contact'].map((path, i) => (
+          <NavLink
+            key={path}
+            to={path}
+            className='flex flex-col items-center gap-1'
+          >
+            <p>{['HOME', 'PRODUCTS', 'ABOUT', 'CONTACT'][i]}</p>
+            <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
+          </NavLink>
+        ))}
       </ul>
 
       <div className='flex items-center gap-6'>
@@ -50,34 +53,42 @@ function Navbar() {
         </div>
 
         <div className='group relative'>
-          <FiUser className='w-6 h-6 cursor-pointer' />
-          <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
-            <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
-              <a href='/profile' className='cursor-pointer hover:text-black'>
-                Profile
-              </a>
-              <a
-                onClick={async () => {
-                  try {
-                    await fetch('http://localhost:4567/api/users/logout', {
+          <FiUser
+            className='w-6 h-6 cursor-pointer'
+            onClick={() => {
+              if (!loggedIn) navigate('/login')
+            }}
+          />
+          {loggedIn && (
+            <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
+              <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
+                <a href='/profile' className='hover:text-black'>
+                  Profile
+                </a>
+                <a
+                  onClick={() => {
+                    fetch('http://localhost:4567/api/users/logout', {
                       method: 'POST',
                       credentials: 'include',
+                    }).then(() => {
+                      navigate('/')
+                      window.location.reload()
                     })
-                    navigate('/login')
-                  } catch (error) {
-                    console.error('Logout error:', error)
-                  }
-                }}
-                className='cursor-pointer hover:text-black'
-              >
-                Logout
-              </a>
+                  }}
+                  className='hover:text-black cursor-pointer'
+                >
+                  Logout
+                </a>
+              </div>
             </div>
-          </div>
+          )}
         </div>
-        <Link to='/cart' className='relative'>
-          <FiShoppingCart className='w-6 h-6 min-w-6' />
-        </Link>
+
+        {loggedIn && (
+          <Link to='/cart'>
+            <FiShoppingCart className='w-6 h-6 min-w-6' />
+          </Link>
+        )}
       </div>
     </div>
   )
