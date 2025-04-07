@@ -9,5 +9,6 @@ router.post('/delete-user', userController.DeleteUser)
 router.post('/login-user', userController.LoginUser)
 router.get('/session-user', userController.SessionUser)
 router.post('/logout', userController.LogoutUser)
+router.get('/order-history', userController.GetOrderHistory)
 
 module.exports = router

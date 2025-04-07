@@ -58,11 +58,11 @@ function App() {
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/edit" element={<EditProfile />} />
-          <Route path='/admin' element={<AdminLogin />} />
-          <Route path='/userlist' element={<UserList />} />
-          <Route path='/itemlist' element={<ItemList />} />
-          <Route path="/addproduct" element={<AddProduct />} />
-          <Route path="/order" element={<AllOrders />} />
+          <Route path='/admin-login' element={<AdminLogin />} />
+          <Route path='/admin-users' element={<UserList />} />
+          <Route path='/admin-products' element={<ItemList />} />
+          <Route path="/admin-addprod" element={<AddProduct />} />
+          <Route path="/admin-orders" element={<AllOrders />} />
         </Routes>
       </div>
       <Footer />

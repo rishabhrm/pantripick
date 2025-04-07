@@ -4,137 +4,131 @@ import { FiChevronLeft, FiCheckCircle } from 'react-icons/fi'
 import axios from 'axios'
 
 const OrderConfirmation = () => {
-  const [orderDetails, setOrderDetails] = useState(null)
-  const [total, setTotal] = useState(0)
+	const [orderDetails, setOrderDetails] = useState({ cart: [], address: {} })
+	const [total, setTotal] = useState(0)
 
-  useEffect(() => {
-    const fetchCartAndAddress = async () => {
-      const res = await axios.get('http://localhost:4567/api/cart', {
-        withCredentials: true,
-      })
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await axios.get('http://localhost:4567/api/cart', {
+				withCredentials: true,
+			})
 
-      const cartItems = res.data.cart || []
+			const cart = res.data.cart
+			const address = JSON.parse(localStorage.getItem('checkoutForm'))
 
-      const storedAddress =
-        JSON.parse(localStorage.getItem('checkoutForm')) || {}
+			setOrderDetails({ cart, address })
+			setTotal(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))
+		}
 
-      const totalPrice = cartItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      )
+		fetchData()
+	}, [])
 
-      setOrderDetails({ cart: cartItems, address: storedAddress })
-      setTotal(totalPrice)
-    }
+	const handlePlaceOrder = async () => {
+		const f = orderDetails.address
+		const fullAddress = `${f.address1}, ${f.address2}, ${f.city}, ${f.state} - ${f.pinCode}`
 
-    fetchCartAndAddress()
-  }, [])
+		const payload = {
+			recipient_name: `${f.firstName} ${f.lastName}`,
+			phone: f.phone,
+			email: f.email,
+			address: fullAddress,
+		}
 
-  return (
-    <div className='px-4 sm:px-12 lg:px-16 py-10 flex justify-center'>
-      <div className='bg-white border border-gray-200 rounded-lg p-8 w-full max-w-3xl shadow-md'>
-        <Link
-          to={`/checkout/${total}`}
-          className='text-black flex items-center text-sm mb-6'
-        >
-          <FiChevronLeft className='mr-2 text-lg' />
-          Back to checkout
-        </Link>
+		const res = await fetch('http://localhost:4567/api/cart/place-order', {
+			method: 'POST',
+			credentials: 'include',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(payload),
+		})
 
-        <div className='text-center mb-6'>
-          <FiCheckCircle className='text-green-600 text-4xl mx-auto mb-3' />
-          <h2 className='text-2xl font-bold text-black'>Order Confirmed!</h2>
-          <p className='text-gray-600'>Thank you for your purchase.</p>
-        </div>
+		await res.json()
+		alert('Order placed successfully!')
+		window.location.href = '/'
+	}
 
-        {orderDetails && (
-          <>
-            <h3 className='text-lg font-semibold mb-3'>Order Summary</h3>
-            <div className='border border-gray-200 rounded-lg mb-6 overflow-x-auto'>
-              <table className='w-full text-left border-collapse'>
-                <thead>
-                  <tr className='border-b border-gray-200'>
-                    <th className='p-3'>Product</th>
-                    <th className='p-3'>Price</th>
-                    <th className='p-3'>Quantity</th>
-                    <th className='p-3'>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderDetails.cart.length === 0 && (
-                    <tr>
-                      <td colSpan='4' className='text-center text-gray-500 p-4'>
-                        Your cart was empty.
-                      </td>
-                    </tr>
-                  )}
-                  {orderDetails.cart.length > 0 &&
-                    orderDetails.cart.map(
-                      ({ id, image, name, price, quantity }) => (
-                        <tr key={id} className='border-b border-gray-200'>
-                          <td className='p-3 flex items-center'>
-                            <img
-                              src={`http://localhost:4567/${image}`}
-                              alt={name}
-                              className='w-12 h-12 mr-4 object-cover rounded'
-                            />
-                            {name}
-                          </td>
-                          <td className='p-3'>₹{price}</td>
-                          <td className='p-3'>{quantity}</td>
-                          <td className='p-3'>
-                            ₹{(price * quantity).toFixed(2)}
-                          </td>
-                        </tr>
-                      )
-                    )}
-                </tbody>
-              </table>
-            </div>
+	const { cart, address: f } = orderDetails
 
-            <h3 className='text-lg font-semibold mb-3'>Shipping Details</h3>
-            <div className='border border-gray-200 rounded-lg p-4'>
-              <p className='text-gray-700'>
-                <strong>Name:</strong> {orderDetails.address.firstName}{' '}
-                {orderDetails.address.lastName}
-              </p>
-              <p className='text-gray-700'>
-                <strong>Phone:</strong> {orderDetails.address.phone}
-              </p>
-              <p className='text-gray-700'>
-                <strong>Email:</strong> {orderDetails.address.email}
-              </p>
-              <p className='text-gray-700'>
-                <strong>Address:</strong> {orderDetails.address.address1},{' '}
-                {orderDetails.address.address2}
-              </p>
-              <p className='text-gray-700'>
-                <strong>City:</strong> {orderDetails.address.city},{' '}
-                {orderDetails.address.state} - {orderDetails.address.pinCode}
-              </p>
-            </div>
+	return (
+		<div className='px-4 sm:px-12 lg:px-16 py-10 flex justify-center'>
+			<div className='bg-white border border-gray-200 rounded-lg p-8 w-full max-w-3xl shadow-md'>
+				<Link
+					to={`/checkout/${total}`}
+					className='text-black flex items-center text-sm mb-6'
+				>
+					<FiChevronLeft className='mr-2 text-lg' />
+					Back to checkout
+				</Link>
 
-            <div className='mt-6 flex justify-between items-center'>
+				<div className='text-center mb-6'>
+					<FiCheckCircle className='text-green-600 text-4xl mx-auto mb-3' />
+					<h2 className='text-2xl font-bold text-black'>Order Confirmed!</h2>
+					<p className='text-gray-600'>Thank you for your purchase.</p>
+				</div>
 
-            <div className='text-lg font-semibold text-right'>
-                Total:{' '}
-                <span className='text-green-600'>₹{total.toFixed(2)}</span>
-              </div>
+				<h3 className='text-lg font-semibold mb-3'>Order Summary</h3>
+				<div className='border border-gray-200 rounded-lg mb-6 overflow-x-auto'>
+					<table className='w-full text-left border-collapse'>
+						<thead>
+							<tr className='border-b border-gray-200'>
+								<th className='p-3'>Product</th>
+								<th className='p-3'>Price</th>
+								<th className='p-3'>Qty</th>
+								<th className='p-3'>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							{cart.map(({ id, image, name, price, quantity }) => (
+								<tr key={id} className='border-b border-gray-200'>
+									<td className='p-3 flex items-center'>
+										<img
+											src={`http://localhost:4567/${image}`}
+											alt={name}
+											className='w-12 h-12 mr-4 object-cover rounded'
+										/>
+										{name}
+									</td>
+									<td className='p-3'>₹{price}</td>
+									<td className='p-3'>{quantity}</td>
+									<td className='p-3'>₹{(price * quantity).toFixed(2)}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 
-              <Link
-                to='/'
-                className='bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition'
-              >
-                Proceed to Payment
-              </Link>
+				<h3 className='text-lg font-semibold mb-3'>Shipping Details</h3>
+				<div className='border border-gray-200 rounded-lg p-4'>
+					<p className='text-gray-700'>
+						<strong>Name:</strong> {f.firstName} {f.lastName}
+					</p>
+					<p className='text-gray-700'>
+						<strong>Phone:</strong> {f.phone}
+					</p>
+					<p className='text-gray-700'>
+						<strong>Email:</strong> {f.email}
+					</p>
+					<p className='text-gray-700'>
+						<strong>Address:</strong> {f.address1}, {f.address2}
+					</p>
+					<p className='text-gray-700'>
+						<strong>City:</strong> {f.city}, {f.state} - {f.pinCode}
+					</p>
+				</div>
 
-             
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  )
+				<div className='mt-6 flex justify-between items-center'>
+					<div className='text-lg font-semibold'>
+						Total: <span className='text-green-600'>₹{total.toFixed(2)}</span>
+					</div>
+					<button
+						onClick={handlePlaceOrder}
+						className='bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition'
+					>
+						Proceed to Payment
+					</button>
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export default OrderConfirmation

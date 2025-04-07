@@ -76,6 +76,28 @@ const LogoutUser = (req, res) => {
   })
 }
 
+const GetOrderHistory = async (req, res) => {
+    const userEmail = req.session.user?.email
+    if (!userEmail) return res.status(401).json({ error: 'Not logged in' })
+  
+    try {
+      const orders = await db.query(
+        `SELECT order_id, recipient_name, phone, email, address, product_id, product_name, quantity, created_at
+         FROM order_history
+         WHERE user_id = (
+           SELECT u_id FROM users_table WHERE u_email = $1
+         )
+         ORDER BY created_at DESC`,
+        [userEmail]
+      )
+  
+      res.json({ orders: orders.rows })
+    } catch (err) {
+      console.error('Error fetching order history:', err)
+      res.status(500).json({ error: 'Failed to fetch orders' })
+    }
+  }
+
 module.exports = {
   FetchUser,
   RegisterUser,
@@ -83,5 +105,6 @@ module.exports = {
   DeleteUser,
   LoginUser,
   SessionUser,
-  LogoutUser
+  LogoutUser,
+  GetOrderHistory
 }

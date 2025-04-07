@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const UsersList = () => {
-  const [users, setUsers] = useState([
-    { name: "Rishabh", email: "rishabh@mail.com", address: "Yagnik Road", orders: 4 },
-    { name: "Raj", email: "raj@mail.com", address: "Trikonbaug", orders: 12 },
-    { name: "Shailendra", email: "shailendra@mail.com", address: "Indira Circle", orders: 20 },
-    { name: "Lakshya", email: "lkumar@mail.com", address: "Delhi", orders: 12 },
-    { name: "Raghu", email: "ryadav@mail.com", address: "Pune", orders: 22 },
-    { name: "Sunil", email: "skumar@mail.com", address: "Ahmedabad", orders: 30 },
-    { name: "Anu", email: "anu@mail.com", address: "Patna", orders: 22 },
-  ]);
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
+
+  // Fetch users from backend on component mount
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("http://localhost:4567/api/users/fetch-user"); // update URL if needed
+        const fetchedUsers = res.data.users.map(user => ({
+          name: user.u_name,
+          email: user.u_email,
+          address: user.u_address || user.u_city || "N/A",
+          orders: Math.floor(Math.random() * 40), // Since DB doesn't have 'orders', adding random
+        }));
+        setUsers(fetchedUsers);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -47,7 +60,7 @@ const UsersList = () => {
       <input
         type="text"
         placeholder="Search for Users..."
-        className="mb-4 p-2 w-full max-w-lg rounded-lg border border--300 bg-white text-black"
+        className="mb-4 p-2 w-full max-w-lg rounded-lg border border-gray-300 bg-white text-black"
         value={search}
         onChange={handleSearch}
       />

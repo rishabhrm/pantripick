@@ -1,77 +1,108 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiChevronLeft } from 'react-icons/fi'
+import axios from 'axios'
 
 const UserProfile = () => {
-  const [user, setUser] = useState(null)
+	const [user, setUser] = useState(null)
+	const [orders, setOrders] = useState([])
+	const [loading, setLoading] = useState(true)
+	const navigate = useNavigate()
 
-  useEffect(() => {
-    fetch('http://localhost:4567/api/users/session-user', {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user) setUser(data.user)
-        else navigate('/login')
-      })
-  }, [])
+	useEffect(() => {
+		axios
+			.get('http://localhost:4567/api/users/session-user', {
+				withCredentials: true,
+			})
+			.then((res) => {
+				if (res.data.user) {
+					setUser(res.data.user)
+					setLoading(false)
+				} else {
+					alert('Please login to view your profile')
+					navigate('/')
+				}
+			})
 
-  return (
-    <div className='px-6 sm:px-16 lg:px-24 py-12'>
-      <Link to='/' className='text-black flex items-center text-sm mb-4'>
-        <FiChevronLeft className='mr-2 text-lg' />
-        Back to Home
-      </Link>
+		axios
+			.get('http://localhost:4567/api/users/order-history', {
+				withCredentials: true,
+			})
+			.then((res) => {
+				if (res.data.orders) {
+					setOrders(res.data.orders)
+				}
+			})
+	}, [])
 
-      <div className='relative inline-block mb-5'>
-        <h2 className='text-black text-2xl sm:text-3xl font-normal inline-block'>
-          USER <span className='font-bold'>PROFILE</span>
-        </h2>
-        <span className='absolute left-full top-1/2 -translate-y-1/2 ml-3 w-16 border-t-2 border-black'></span>
-      </div>
+	if (loading) return null
 
-      {!user ? (
-        <p className='text-gray-500'>Loading user...</p>
-      ) : (
-        <>
-          <p className='text-gray-700'>
-            <strong>Name:</strong> {user.firstName}
-          </p>
-          <p className='text-gray-700'>
-            <strong>Email:</strong> {user.email}
-          </p>
-          <p className='text-gray-700'>
-            <strong>Phone:</strong> {user.phone}
-          </p>
-          <p className='text-gray-700'>
-            <strong>Address:</strong> {user.address}
-          </p>
+	const groupedOrders = orders.reduce((acc, order) => {
+		if (!acc[order.order_id]) acc[order.order_id] = []
+		acc[order.order_id].push(order)
+		return acc
+	}, {})
 
-          <h3 className='text-black text-xl font-semibold mt-8'>Past Orders</h3>
+	return (
+		<div className='px-6 sm:px-16 lg:px-24 py-12'>
+			<Link to='/' className='text-black flex items-center text-sm mb-4'>
+				<FiChevronLeft className='mr-2 text-lg' />
+				Back to Home
+			</Link>
 
-          <div className='mt-4'>
-            {[1, 2].map((_, i) => (
-              <div
-                key={i}
-                className='border-gray-300 border rounded-lg p-4 shadow-md mt-4'
-              >
-                <p className='text-black font-medium'>Order ID: ORD1234{i}</p>
-                <p className='text-gray-600'>Date: April {i + 1}, 2025</p>
-                <p className='text-gray-600'>Total: ₹{1000 + i * 500}</p>
-                <p
-                  className={`text-sm font-semibold ${
-                    i % 2 === 0 ? 'text-green-600' : 'text-blue-600'
-                  }`}
-                >
-                  Status: {i % 2 === 0 ? 'Delivered' : 'Shipped'}
-                </p>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  )
+			<div className='relative inline-block mb-5'>
+				<h2 className='text-black text-2xl sm:text-3xl font-normal inline-block'>
+					USER <span className='font-bold'>PROFILE</span>
+				</h2>
+				<span className='absolute left-full top-1/2 -translate-y-1/2 ml-3 w-16 border-t-2 border-black'></span>
+			</div>
+
+			<p className='text-gray-700'>
+				<strong>Name:</strong> {user.firstName}
+			</p>
+			<p className='text-gray-700'>
+				<strong>Email:</strong> {user.email}
+			</p>
+			<p className='text-gray-700'>
+				<strong>Phone:</strong> {user.phone}
+			</p>
+			<p className='text-gray-700'>
+				<strong>Address:</strong> {user.address}
+			</p>
+			<p className='text-gray-700'>
+				<strong>City:</strong> {user.city}
+			</p>
+
+			<h3 className='text-black text-xl font-semibold mt-8'>Past Orders</h3>
+			<div className='mt-4'>
+				{Object.keys(groupedOrders).length > 0 &&
+					Object.entries(groupedOrders).map(([orderId, items]) => (
+						<div
+							key={orderId}
+							className='border-gray-300 border rounded-lg p-4 shadow-md mt-4'
+						>
+							<p className='text-black font-medium'>Order ID: {orderId}</p>
+							<p className='text-gray-600'>
+								Date: {new Date(items[0].created_at).toLocaleDateString()}
+							</p>
+							<p className='text-gray-600'>
+								Items:{' '}
+								{items
+									.map((item) => `${item.product_name} (x${item.quantity})`)
+									.join(', ')}
+							</p>
+							<p className='text-blue-600 font-semibold text-sm'>
+								Status: Confirmed
+							</p>
+						</div>
+					))}
+
+				{Object.keys(groupedOrders).length === 0 && (
+					<p className='text-gray-500'>No past orders found.</p>
+				)}
+			</div>
+		</div>
+	)
 }
 
 export default UserProfile
