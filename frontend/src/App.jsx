@@ -1,8 +1,9 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 //Basic Components
-import Navbar from './components/Navbar'
+// import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
 // Public Pages
@@ -40,7 +41,7 @@ function App() {
   return (
     <>
       <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/products' element={<Products />} />
@@ -57,7 +58,7 @@ function App() {
           <Route path='/otp' element={<OTP />} />
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/edit" element={<EditProfile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
           <Route path='/admin-login' element={<AdminLogin />} />
           <Route path='/admin-users' element={<UserList />} />
           <Route path='/admin-products' element={<ItemList />} />
@@ -65,6 +66,7 @@ function App() {
           <Route path="/admin-orders" element={<AllOrders />} />
         </Routes>
       </div>
+      <ToastContainer />
       <Footer />
     </>
   )

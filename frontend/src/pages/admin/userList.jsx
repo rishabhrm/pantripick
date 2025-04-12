@@ -6,16 +6,15 @@ const UsersList = () => {
   const [search, setSearch] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
 
-  // Fetch users from backend on component mount
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:4567/api/users/fetch-user"); // update URL if needed
+        const res = await axios.get("http://localhost:4567/api/users/fetch-user");
         const fetchedUsers = res.data.users.map(user => ({
+          id: user.u_id,
           name: user.u_name,
           email: user.u_email,
-          address: user.u_address || user.u_city || "N/A",
-          orders: Math.floor(Math.random() * 40), // Since DB doesn't have 'orders', adding random
+          address: user.u_city
         }));
         setUsers(fetchedUsers);
       } catch (error) {
@@ -30,6 +29,14 @@ const UsersList = () => {
     setSearch(e.target.value);
   };
 
+  const handleSort = (key) => {
+    let ascending = true;
+    if (sortConfig && sortConfig.key === key && sortConfig.ascending) {
+      ascending = false;
+    }
+    setSortConfig({ key, ascending });
+  };
+
   const sortedUsers = [...users].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, ascending } = sortConfig;
@@ -42,16 +49,19 @@ const UsersList = () => {
     user.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleSort = (key) => {
-    let ascending = true;
-    if (sortConfig && sortConfig.key === key && sortConfig.ascending) {
-      ascending = false;
-    }
-    setSortConfig({ key, ascending });
-  };
+  const handleRemove = async (userId) => {
+    const confirmed = window.confirm("Are you sure you want to remove this user?");
+    if (!confirmed) return;
 
-  const handleRemove = (email) => {
-    setUsers(users.filter((user) => user.email !== email));
+    try {
+      await axios.delete("http://localhost:4567/api/users/admin-delete-user", {
+        data: { id: userId },
+      });
+      setUsers(prev => prev.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+      alert("Failed to delete user.");
+    }
   };
 
   return (
@@ -71,27 +81,31 @@ const UsersList = () => {
               <th className="p-3 cursor-pointer" onClick={() => handleSort("name")}>Name</th>
               <th className="p-3 cursor-pointer" onClick={() => handleSort("email")}>Email</th>
               <th className="p-3">Address</th>
-              <th className="p-3 cursor-pointer" onClick={() => handleSort("orders")}>Total Orders</th>
               <th className="p-3">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user, index) => (
-              <tr key={index} className="border-b hover:bg-gray-100">
-                <td className="p-3 text-center">{user.name}</td>
-                <td className="p-3 text-center">{user.email}</td>
-                <td className="p-3 text-center">{user.address}</td>
-                <td className="p-3 text-center">{user.orders}</td>
-                <td className="p-3 text-center">
-                  <button
-                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700"
-                    onClick={() => handleRemove(user.email)}
-                  >
-                    Remove
-                  </button>
-                </td>
+            {filteredUsers.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="text-center p-4 text-gray-500">No users found</td>
               </tr>
-            ))}
+            ) : (
+              filteredUsers.map((user, index) => (
+                <tr key={index} className="border-b hover:bg-gray-100">
+                  <td className="p-3 text-center">{user.name}</td>
+                  <td className="p-3 text-center">{user.email}</td>
+                  <td className="p-3 text-center">{user.address}</td>
+                  <td className="p-3 text-center">
+                    <button
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700"
+                      onClick={() => handleRemove(user.id)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

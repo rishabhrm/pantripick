@@ -6,70 +6,74 @@ import axios from 'axios'
 const CartItems = () => {
 	const navigate = useNavigate()
 	const [cartItems, setCartItems] = useState([])
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:4567/api/users/session-user', {
-				withCredentials: true,
-			})
-			.then((res) => {
+		const fetchSessionAndCart = async () => {
+			try {
+				const res = await axios.get('http://localhost:4567/api/users/session-user', {
+					withCredentials: true,
+				})
+
 				if (!res.data.user) {
-					alert('Please login to continue')
 					navigate('/')
 				} else {
-					axios
-						.get('http://localhost:4567/api/cart', { withCredentials: true })
-						.then((res) => {
-							setCartItems(res.data.cart)
-						})
+					const cartRes = await axios.get('http://localhost:4567/api/cart', {
+						withCredentials: true,
+					})
+					setCartItems(cartRes.data.cart)
 				}
-			})
-	}, [])
+			} catch (error) {
+				console.error(error)
+				navigate('/')
+			} finally {
+				setLoading(false)
+			}
+		}
 
-	const updateQuantity = (productId, change) => {
-		axios
-			.post(
+		fetchSessionAndCart()
+	}, [navigate])
+
+	const updateQuantity = async (productId, change) => {
+		try {
+			await axios.post(
 				'http://localhost:4567/api/cart/update',
 				{ productId, change },
 				{ withCredentials: true }
 			)
-			.then(() => {
-				axios
-					.get('http://localhost:4567/api/cart', { withCredentials: true })
-					.then((res) => {
-						setCartItems(res.data.cart)
-					})
+			const res = await axios.get('http://localhost:4567/api/cart', {
+				withCredentials: true,
 			})
+			setCartItems(res.data.cart)
+		} catch (err) {
+			console.error(err)
+		}
 	}
 
-	const removeItem = (productId) => {
-		axios
-			.post(
+	const removeItem = async (productId) => {
+		try {
+			await axios.post(
 				'http://localhost:4567/api/cart/remove',
 				{ productId },
 				{ withCredentials: true }
 			)
-			.then(() => {
-				axios
-					.get('http://localhost:4567/api/cart', { withCredentials: true })
-					.then((res) => {
-						setCartItems(res.data.cart)
-					})
+			const res = await axios.get('http://localhost:4567/api/cart', {
+				withCredentials: true,
 			})
+			setCartItems(res.data.cart)
+		} catch (err) {
+			console.error(err)
+		}
 	}
 
-	const total = cartItems.reduce(
-		(sum, item) => sum + item.price * item.quantity,
-		0
-	)
+	if (loading) return null
+
+	const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
 	return (
 		<div className='px-6 sm:px-16 lg:px-24 py-10 flex justify-center'>
 			<div className='bg-white border border-gray-200 rounded-lg p-10 w-full max-w-4xl'>
-				<Link
-					to='/products'
-					className='text-black flex items-center text-sm mb-6'
-				>
+				<Link to='/products' className='text-black flex items-center text-sm mb-6'>
 					<FiChevronLeft className='mr-2 text-lg' />
 					Continue Shopping
 				</Link>
@@ -101,7 +105,7 @@ const CartItems = () => {
 										<tr key={id} className='border-b border-gray-200'>
 											<td className='p-3 flex items-center'>
 												<img
-													src={`http://localhost:4567/${image}`}
+													src={`http://localhost:4567/images/${image}`}
 													alt={name}
 													className='w-12 h-12 mr-4 object-cover rounded'
 												/>

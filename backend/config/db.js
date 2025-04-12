@@ -1,4 +1,4 @@
-const { Pool } = require('pg') // Assuming you're using PostgreSQL
+const { Pool } = require('pg')
 require('dotenv').config()
 
 function ConnectionObj() {

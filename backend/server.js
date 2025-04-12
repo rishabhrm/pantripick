@@ -18,10 +18,10 @@ const port = process.env.PORT || 4567
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
+	cors({
+		origin: process.env.CLIENT_URL,
+		credentials: true,
+	})
 )
 
 // Serve static images
@@ -29,17 +29,17 @@ app.use('/images', express.static(path.join(__dirname, 'public/images')))
 
 // Start Session
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: false,
+		cookie: {
+			secure: false,
+			httpOnly: true,
+			sameSite: 'lax',
+			maxAge: 24 * 60 * 60 * 1000,
+		},
+	})
 )
 
 // Routes
@@ -50,5 +50,5 @@ app.use('/api/cart', cartRoutes)
 
 // Start Server
 app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`)
+	console.log(`Server started at http://localhost:${port}`)
 })

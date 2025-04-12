@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { FiChevronLeft } from 'react-icons/fi'
+import Navbar from '../../Navbar'
 
 const Checkout = () => {
 	const { total } = useParams()
@@ -49,139 +50,145 @@ const Checkout = () => {
 	}
 
 	return (
-		<div className='px-4 sm:px-12 lg:px-16 py-8 flex justify-center'>
-			<div className='bg-white border border-gray-200 rounded-lg p-6 w-full max-w-3xl shadow-md'>
-				<Link to='/cart' className='text-black flex items-center text-sm mb-6'>
-					<FiChevronLeft className='mr-2 text-lg' />
-					Back to cart
-				</Link>
+		<>
+			<Navbar />
+			<div className='px-4 sm:px-12 lg:px-16 py-8 flex justify-center'>
+				<div className='bg-white border border-gray-200 rounded-lg p-6 w-full max-w-3xl shadow-md'>
+					<Link
+						to='/cart'
+						className='text-black flex items-center text-sm mb-6'
+					>
+						<FiChevronLeft className='mr-2 text-lg' />
+						Back to cart
+					</Link>
 
-				<div className='relative inline-block mb-6 py-3'>
-					<h2 className='text-black text-2xl sm:text-3xl font-normal inline-block'>
-						CHECK <span className='font-bold'>OUT</span>
-					</h2>
-					<span className='absolute left-full top-1/2 -translate-y-1/2 ml-3 w-16 border-t-2 border-black'></span>
-				</div>
-
-				<p className='text-md font-semibold mb-4'>
-					Total Amount: <span className='text-green-600'>₹{total}</span>
-				</p>
-
-				<form
-					onSubmit={handleSubmit}
-					className='grid grid-cols-1 sm:grid-cols-2 gap-4'
-				>
-					<input
-						type='text'
-						name='firstName'
-						placeholder='First Name'
-						value={formData.firstName}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full ${
-							errors.firstName ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-					<input
-						type='text'
-						name='lastName'
-						placeholder='Last Name'
-						value={formData.lastName}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full ${
-							errors.lastName ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-					<input
-						type='text'
-						name='phone'
-						placeholder='Phone Number'
-						value={formData.phone}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full ${
-							errors.phone ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-					<input
-						type='email'
-						name='email'
-						placeholder='Email Address'
-						value={formData.email}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full ${
-							errors.email ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-
-					<div className='sm:col-span-2'>
-						<input
-							type='text'
-							name='address1'
-							placeholder='Address Line 1'
-							value={formData.address1}
-							onChange={handleChange}
-							className={`border p-2 rounded w-full ${
-								errors.address1 ? 'border-red-500' : 'border-gray-400'
-							}`}
-						/>
+					<div className='relative inline-block mb-6 py-3'>
+						<h2 className='text-black text-2xl sm:text-3xl font-normal inline-block'>
+							CHECK <span className='font-bold'>OUT</span>
+						</h2>
+						<span className='absolute left-full top-1/2 -translate-y-1/2 ml-3 w-16 border-t-2 border-black'></span>
 					</div>
 
-					<input
-						type='text'
-						name='address2'
-						placeholder='Address Line 2 (Optional)'
-						value={formData.address2}
-						onChange={handleChange}
-						className='border border-gray-400 p-2 rounded w-full sm:col-span-2'
-					/>
+					<p className='text-md font-semibold mb-4'>
+						Total Amount: <span className='text-green-600'>₹{total}</span>
+					</p>
 
-					<input
-						type='text'
-						name='city'
-						placeholder='City'
-						value={formData.city}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full ${
-							errors.city ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-					<input
-						type='text'
-						name='state'
-						placeholder='State'
-						value={formData.state}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full ${
-							errors.state ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-					<input
-						type='text'
-						name='pinCode'
-						placeholder='PIN Code'
-						value={formData.pinCode}
-						onChange={handleChange}
-						className={`border p-2 rounded w-full sm:col-span-2 ${
-							errors.pinCode ? 'border-red-500' : 'border-gray-400'
-						}`}
-					/>
-
-					<button
-						type='submit'
-						className='col-span-2 px-4 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded transition'
+					<form
+						onSubmit={handleSubmit}
+						className='grid grid-cols-1 sm:grid-cols-2 gap-4'
 					>
-						Place Order
-					</button>
-				</form>
+						<input
+							type='text'
+							name='firstName'
+							placeholder='First Name'
+							value={formData.firstName}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full ${
+								errors.firstName ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
+						<input
+							type='text'
+							name='lastName'
+							placeholder='Last Name'
+							value={formData.lastName}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full ${
+								errors.lastName ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
+						<input
+							type='text'
+							name='phone'
+							placeholder='Phone Number'
+							value={formData.phone}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full ${
+								errors.phone ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
+						<input
+							type='email'
+							name='email'
+							placeholder='Email Address'
+							value={formData.email}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full ${
+								errors.email ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
 
-				<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2'>
-					{Object.entries(errors).map(([field, message]) => (
-						<p key={field} className='text-red-500 text-sm col-span-2'>
-							{message}
-						</p>
-					))}
+						<div className='sm:col-span-2'>
+							<input
+								type='text'
+								name='address1'
+								placeholder='Address Line 1'
+								value={formData.address1}
+								onChange={handleChange}
+								className={`border p-2 rounded w-full ${
+									errors.address1 ? 'border-red-500' : 'border-gray-400'
+								}`}
+							/>
+						</div>
+
+						<input
+							type='text'
+							name='address2'
+							placeholder='Address Line 2 (Optional)'
+							value={formData.address2}
+							onChange={handleChange}
+							className='border border-gray-400 p-2 rounded w-full sm:col-span-2'
+						/>
+
+						<input
+							type='text'
+							name='city'
+							placeholder='City'
+							value={formData.city}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full ${
+								errors.city ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
+						<input
+							type='text'
+							name='state'
+							placeholder='State'
+							value={formData.state}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full ${
+								errors.state ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
+						<input
+							type='text'
+							name='pinCode'
+							placeholder='PIN Code'
+							value={formData.pinCode}
+							onChange={handleChange}
+							className={`border p-2 rounded w-full sm:col-span-2 ${
+								errors.pinCode ? 'border-red-500' : 'border-gray-400'
+							}`}
+						/>
+
+						<button
+							type='submit'
+							className='col-span-2 px-4 py-2 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded transition'
+						>
+							Place Order
+						</button>
+					</form>
+
+					<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2'>
+						{Object.entries(errors).map(([field, message]) => (
+							<p key={field} className='text-red-500 text-sm col-span-2'>
+								{message}
+							</p>
+						))}
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	)
 }
 
