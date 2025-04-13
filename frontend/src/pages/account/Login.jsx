@@ -34,31 +34,40 @@ function Login() {
 	return (
 		<>
 			<Navbar />
-			<div className='flex justify-center items-center h-screen bg-yellow-100 p-10'>
+			<div className='flex flex-col items-center justify-center h-screen '>
 				<div className='bg-white p-8 rounded-lg shadow-md w-96'>
-					<h2 className='text-2xl font-semibold mb-6 text-center'>
-						LOGIN <span className='font-bold-500'>HERE</span>
+					<h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>
+						Login Here
 					</h2>
+					<p className='text-sm text-gray-500 text-center mb-6'>
+						Enter your email and password to login.
+					</p>
 					<form onSubmit={handleLogin}>
+						<label className='text-gray-600 text-sm font-medium'>
+							Email Address
+						</label>
 						<input
 							type='email'
-							placeholder='Email Address'
+							placeholder='Enter your email'
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							className='w-full px-4 py-2 mb-3 border border-yellow-500 rounded-md focus:outline-none'
+							className='mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300 mb-2'
 							required
 						/>
+						<label className='text-gray-600 text-sm font-medium'>
+							Password
+						</label>
 						<input
 							type='password'
 							placeholder='Password'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							className='w-full px-4 py-2 mb-3 border border-yellow-500 rounded-md focus:outline-none'
+							className='mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300 mb-4'
 							required
 						/>
 						<button
 							type='submit'
-							className='w-full bg-black text-white py-2 rounded-md mb-2 hover:opacity-80'
+							className='w-full bg-gray-700 text-white py-2 rounded-md mb-2 hover:bg-blue-800 transition'
 						>
 							Login
 						</button>
@@ -70,18 +79,16 @@ function Login() {
 					>
 						Admin Login
 					</button>
-					<div className='flex justify-between items-center mt-4 text-sm'>
-						<a
-							href='/reset-password'
-							className='text-black-500 hover:underline'
-						>
+					<div className='flex justify-center items-center mt-4 text-sm space-x-2'>
+						<a href='/reset-password' className='text-black-500 hover:underline'>
 							Forgot Password?
 						</a>
-						<span className='text-black-500 ml-1'>|</span>
-						<a href='/signup' className='text-blue-700 hover:underline mr-30'>
+						<span className='text-black-500'>|</span>
+						<a href='/signup' className='text-black hover:underline'>
 							Sign Up
 						</a>
 					</div>
+
 				</div>
 			</div>
 		</>

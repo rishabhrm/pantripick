@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Navbar from '../../components/Navbar'
-import { assets } from '../../assets/assets'
 import { toast } from 'react-toastify'
 
 const SignUp = () => {
@@ -30,7 +29,7 @@ const SignUp = () => {
 		}
 
 		try {
-			const response = await axios.post(
+			await axios.post(
 				'http://localhost:4567/api/users/register-user',
 				{
 					u_name: formData.firstName,
@@ -42,13 +41,13 @@ const SignUp = () => {
 				}
 			)
 
-			toast.success('Registration successful!')  // Show success toast after successful registration
+			toast.success('Registration successful!')
 			navigate('/login')
 		} catch (error) {
 			console.error('Registration error:', error)
 			toast.error(
 				error.response?.data?.error ||
-					'Failed to register user. Please try again.'  // Show error toast on failure
+				'Failed to register user. Please try again.'
 			)
 		}
 	}
@@ -56,44 +55,32 @@ const SignUp = () => {
 	return (
 		<>
 			<Navbar />
-			<div className='flex justify-center items-center min-h-screen bg-white'>
-				{/* Main Container */}
-				<div className='flex w-full sm:w-11/12 lg:w-9/12 bg-white rounded-lg shadow-lg'>
-					
-					{/* Image Section */}
-					<div className='w-1/2 h-[500px]'>
-						<img
-							src={assets.hero_img}
-							alt='Signup'
-							className='w-full h-full object-cover rounded-l-lg'
+			<div className='flex flex-col items-center justify-center h-screen px-20'>
+				<div className='bg-white p-8 rounded-lg shadow-md w-full max-w-xl'>
+					<h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>
+						Create Account
+					</h2>
+					<p className='text-sm text-gray-500 text-center mb-6'>
+						Fill in your details to sign up.
+					</p>
+					<form onSubmit={handleSubmit} className='space-y-4'>
+						<input
+							type='text'
+							name='firstName'
+							placeholder='Full Name'
+							value={formData.firstName}
+							onChange={handleChange}
+							className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+							required
 						/>
-					</div>
-
-					{/* Form Section */}
-					<div className='w-1/2 h-[500px] p-8 flex flex-col justify-center'>
-						<h2 className='text-2xl font-bold text-center mb-6'>
-							SIGN UP <span className='font-bold-500'>HERE</span>
-						</h2>
-						<form
-							onSubmit={handleSubmit}
-							className='grid grid-cols-1 sm:grid-cols-2 gap-6'
-						>
-							<input
-								type='text'
-								name='firstName'
-								placeholder='Name'
-								value={formData.firstName}
-								onChange={handleChange}
-								className='border border-orange-400 p-3 rounded col-span-2 focus:outline-none'
-								required
-							/>
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 							<input
 								type='email'
 								name='email'
 								placeholder='Email address'
 								value={formData.email}
 								onChange={handleChange}
-								className='border border-orange-400 p-3 rounded focus:outline-none'
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
 								required
 							/>
 							<input
@@ -102,34 +89,36 @@ const SignUp = () => {
 								placeholder='Phone number'
 								value={formData.phone}
 								onChange={handleChange}
-								className='border border-orange-400 p-3 rounded focus:outline-none'
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
 								required
 							/>
-							<input
-								type='text'
-								name='address'
-								placeholder='Address Line'
-								value={formData.address}
-								onChange={handleChange}
-								className='border border-orange-400 p-3 rounded col-span-2 focus:outline-none'
-								required
-							/>
-							<input
-								type='text'
-								name='city'
-								placeholder='City'
-								value={formData.city}
-								onChange={handleChange}
-								className='border border-orange-400 p-3 rounded col-span-2 focus:outline-none'
-								required
-							/>
+						</div>
+						<input
+							type='text'
+							name='address'
+							placeholder='Address'
+							value={formData.address}
+							onChange={handleChange}
+							className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+							required
+						/>
+						<input
+							type='text'
+							name='city'
+							placeholder='City'
+							value={formData.city}
+							onChange={handleChange}
+							className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+							required
+						/>
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 							<input
 								type='password'
 								name='password'
 								placeholder='Password'
 								value={formData.password}
 								onChange={handleChange}
-								className='w-full p-3 border border-orange-400 rounded-md focus:outline-none'
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
 								required
 							/>
 							<input
@@ -138,25 +127,25 @@ const SignUp = () => {
 								placeholder='Confirm Password'
 								value={formData.confirmPassword}
 								onChange={handleChange}
-								className='w-full p-3 border border-orange-400 rounded-md focus:outline-none'
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
 								required
 							/>
-							<button
-								type='submit'
-								className='bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition col-span-2'
-							>
-								Signup
-							</button>
-						</form>
-						<p className='text-center mt-4 text-gray-600'>
-							Already a member?{' '}
-							<button
-								onClick={() => navigate('/login')}
-								className='text-blue-500 underline'
-							>
-								Login
-							</button>
-						</p>
+						</div>
+						<button
+							type='submit'
+							className='w-full bg-gray-700 text-white py-2 rounded-md hover:bg-blue-800 transition'
+						>
+							Sign Up
+						</button>
+					</form>
+					<div className='flex justify-center items-center mt-4 text-sm space-x-2'>
+						<span className='text-gray-500'>Already a member?</span>
+						<button
+							onClick={() => navigate('/login')}
+							className='text-black hover:underline'
+						>
+							Login
+						</button>
 					</div>
 				</div>
 			</div>

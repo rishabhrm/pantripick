@@ -59,31 +59,47 @@ const OTP = () => {
   return (
     <>
       <Navbar />
-      <div className='flex justify-center items-center min-h-screen bg-yellow-100 p-15'>
-        <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md border'>
-          <h2 className='text-2xl font-bold text-center mb-3'>Enter OTP</h2>
-          <p className='text-center text-red-500'>
-            OTP has been sent to your email.
+      <div className='flex flex-col items-center justify-center h-screen '>
+        <div className='bg-white p-8 rounded-lg shadow-md w-96'>
+          <h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>
+            Enter OTP
+          </h2>
+          <p className='text-sm text-gray-500 text-center mb-6'>
+            OTP has been sent to your mail.
           </p>
 
-          {error && <p className='text-red-500 text-center mb-3'>{error}</p>}
 
-          <form onSubmit={handleSubmit} className='mt-4'>
+
+
+
+          <form onSubmit={handleSubmit} className='flex flex-col'>
+            <label className='text-gray-600 text-sm font-medium'>
+              OTP
+            </label>
             <input
               type='text'
-              placeholder='Enter OTP'
+              placeholder='Enter your OTP'
               value={otp}
               onChange={handleChange}
               required
-              className='w-full p-3 mb-4 border border-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-center text-lg'
+              className='mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+
             />
+            {error && <p className='text-red-500 text-sm mt-1'>{error}</p>}
             <button
               type='submit'
-              className='w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition text-lg'
+              className='mt-4 bg-gray-700 text-white py-2 rounded hover:bg-blue-800 transition'
             >
               Validate OTP
             </button>
           </form>
+
+          <div className='text-center mt-4'>
+            <a href='/reset-password' className='text-sm text-gray-500 hover:underline'>
+              Back to Reset Password
+            </a>
+          </div>
+
         </div>
       </div>
     </>
