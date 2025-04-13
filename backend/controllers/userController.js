@@ -1,12 +1,12 @@
 const { ConnectionObj } = require('../config/db')
 const db = ConnectionObj()
 
-const FetchUser = async (req, res) => {
+const fetchUser = async (req, res) => {
 	const result = await db.query('SELECT * FROM users_table;')
 	res.json({ users: result.rows })
 }
 
-const RegisterUser = async (req, res) => {
+const registerUser = async (req, res) => {
 	const { u_name, u_email, u_password, u_phone, u_address, u_city } = req.body
 	const result = await db.query(
 		`INSERT INTO users_table (u_name, u_email, u_password, u_phone, u_address, u_city) 
@@ -16,7 +16,7 @@ const RegisterUser = async (req, res) => {
 	res.json({ user: result.rows[0] })
 }
 
-const UpdateUser = async (req, res) => {
+const updateUser = async (req, res) => {
 	const userEmail = req.session.user?.email
 	if (!userEmail) return res.status(401).json({ error: 'Not logged in' })
 
@@ -52,7 +52,7 @@ const UpdateUser = async (req, res) => {
 	}
 }
 
-const AdminDeleteUser = async (req, res) => {
+const adminDeleteUser = async (req, res) => {
 	const { id: userId } = req.body
 
 	if (!userId) return res.status(400).json({ error: 'No user ID provided' })
@@ -83,7 +83,7 @@ const AdminDeleteUser = async (req, res) => {
 	}
 }
 
-const LoginUser = async (req, res) => {
+const loginUser = async (req, res) => {
 	const { email, password } = req.body
 	const result = await db.query(
 		'SELECT * FROM users_table WHERE u_email = $1;',
@@ -106,20 +106,20 @@ const LoginUser = async (req, res) => {
 	res.json({ message: 'Login successful', user: req.session.user })
 }
 
-const SessionUser = (req, res) => {
+const sessionUser = (req, res) => {
 	req.session.user
 		? res.json({ user: req.session.user })
 		: res.status(401).json({ message: 'Not logged in' })
 }
 
-const LogoutUser = (req, res) => {
+const logoutUser = (req, res) => {
 	req.session.destroy(() => {
 		res.clearCookie('connect.sid')
 		res.json({ message: 'Logged out successfully' })
 	})
 }
 
-const DeleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
 	const userEmail = req.session.user?.email
 	if (!userEmail) return res.status(401).json({ error: 'Not logged in' })
 	try {
@@ -146,32 +146,13 @@ const DeleteUser = async (req, res) => {
 	}
 }
 
-const GetOrderHistory = async (req, res) => {
-	const userEmail = req.session.user?.email
-	if (!userEmail) return res.status(401).json({ error: 'Not logged in' })
-
-	try {
-		const orders = await db.query(
-			`SELECT order_id, recipient_name, phone, email, address, product_id, product_name, quantity, created_at
-       FROM order_history
-       WHERE user_id = (SELECT u_id FROM users_table WHERE u_email = $1)
-       ORDER BY created_at DESC`,
-			[userEmail]
-		)
-		res.json({ orders: orders.rows })
-	} catch {
-		res.status(500).json({ error: 'Failed to fetch orders' })
-	}
-}
-
 module.exports = {
-	FetchUser,
-	RegisterUser,
-	UpdateUser,
-	DeleteUser,
-	AdminDeleteUser,
-	SessionUser,
-	LoginUser,
-	LogoutUser,
-	GetOrderHistory,
+	fetchUser,
+	registerUser,
+	updateUser,
+	deleteUser,
+	adminDeleteUser,
+	sessionUser,
+	loginUser,
+	logoutUser
 }

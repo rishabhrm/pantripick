@@ -43,7 +43,7 @@ const ProductDetails = () => {
       toast.error('Please login to add items to cart')
       return
     }
-
+  
     axios
       .post(
         'http://localhost:4567/api/cart/add',
@@ -56,7 +56,15 @@ const ProductDetails = () => {
       .then(() => {
         toast.success('Item added to cart')
       })
-  }
+      .catch((err) => {
+        const errorMsg = err.response?.data?.error || 'Something went wrong'
+        if (errorMsg === 'Product not available') {
+          toast.error('Product not available, sorry')
+        } else {
+          toast.error(errorMsg)
+        }
+      })
+  }  
 
   if (!product) return null
 

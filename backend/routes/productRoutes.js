@@ -14,10 +14,10 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.get('/fetch-product', productController.FetchProduct)
-router.get('/:id', productController.FetchProductById)
-router.delete('/:id', productController.DeleteProduct)
-router.post('/add-product', upload.single('image'), productController.AddProduct)
-router.post('/update-quantity', productController.UpdateQuantity)
+router.get('/fetch-product', productController.fetchProduct)
+router.get('/:id', productController.fetchProductById)
+router.delete('/:id', productController.deleteProduct)
+router.post('/add-product', upload.single('image'), productController.addProduct)
+router.post('/update-quantity', productController.updateQuantity)
 
 module.exports = router

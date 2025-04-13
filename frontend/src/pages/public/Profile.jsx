@@ -32,7 +32,7 @@ const UserProfile = () => {
 
 		const fetchOrders = async () => {
 			try {
-				const res = await axios.get('http://localhost:4567/api/users/order-history', {
+				const res = await axios.get('http://localhost:4567/api/orders/order-history', {
 					withCredentials: true,
 				})
 
@@ -142,6 +142,7 @@ const UserProfile = () => {
 										.map((item) => `${item.product_name} (x${item.quantity})`)
 										.join(', ')}
 								</p>
+								<p className='text-gray-600'>Address: {items[0].address}</p>
 								<p className='text-blue-600 font-semibold text-sm'>
 									Status: Confirmed
 								</p>

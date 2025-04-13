@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { FiChevronLeft, FiCheckCircle } from 'react-icons/fi'
 import axios from 'axios'
 import Navbar from '../../Navbar'
@@ -7,20 +7,18 @@ import Navbar from '../../Navbar'
 const OrderConfirmation = () => {
 	const [orderDetails, setOrderDetails] = useState({ cart: [], address: {} })
 	const [total, setTotal] = useState(0)
+	const location = useLocation()
+	const formData = location.state?.formData || {}
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const res = await axios.get('http://localhost:4567/api/cart', {
 				withCredentials: true,
 			})
-
 			const cart = res.data.cart
-			const address = JSON.parse(localStorage.getItem('checkoutForm'))
-
-			setOrderDetails({ cart, address })
+			setOrderDetails({ cart, address: formData })
 			setTotal(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))
 		}
-
 		fetchData()
 	}, [])
 
@@ -35,7 +33,7 @@ const OrderConfirmation = () => {
 			address: fullAddress,
 		}
 
-		const res = await fetch('http://localhost:4567/api/cart/place-order', {
+		const res = await fetch('http://localhost:4567/api/orders/place-order', {
 			method: 'POST',
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' },
@@ -126,7 +124,7 @@ const OrderConfirmation = () => {
 							onClick={handlePlaceOrder}
 							className='bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition'
 						>
-							Proceed to Payment
+							Confirm Order
 						</button>
 					</div>
 				</div>

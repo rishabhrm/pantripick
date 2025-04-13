@@ -6,6 +6,8 @@ const path = require('path')
 const userRoutes = require('./routes/userRoutes')
 const productRoutes = require('./routes/productRoutes')
 const cartRoutes = require('./routes/cartRoutes')
+const orderRoutes = require('./routes/orderRoutes')
+const passRoutes = require('./routes/passRoutes')
 
 // Load environment variables
 dotenv.config()
@@ -47,6 +49,8 @@ app.get('/', (req, res) => res.send('Server is ready'))
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/pass', passRoutes)
 
 // Start Server
 app.listen(port, () => {

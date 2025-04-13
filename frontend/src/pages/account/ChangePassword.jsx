@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
+import axios from 'axios'
 
 function ChangePassword() {
 	const navigate = useNavigate()
+	const location = useLocation()
 
 	const [newPassword, setNewPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 	const [error, setError] = useState('')
+	const [success, setSuccess] = useState(false)
+	const otp = location?.state?.otp
+	const email = location?.state?.email
 
-	const handleSubmit = (e) => {
+	console.log('Location state:', location.state) // Debugging log to check if email is passed correctly
+
+	useEffect(() => {
+		if (!otp) {
+			navigate('/otp') // Redirect to OTP page if OTP is not available
+		}
+	}, [otp, navigate])
+
+	const handleSubmit = async (e) => {
 		e.preventDefault()
 
 		if (newPassword !== confirmPassword) {
@@ -18,7 +31,29 @@ function ChangePassword() {
 		}
 
 		setError('')
-		alert('Password changed successfully!')
+
+		try {
+			console.log('Sending data to backend:', { otp, newPassword, email })
+
+			const response = await axios.post(
+				'http://localhost:4567/api/pass/pass-reset',
+				{
+					otp,
+					newPassword,
+					email, // Send OTP, new password, and email to backend
+				}
+			)
+
+			if (response.status !== 200) {
+				setError(response.data.message || 'Failed to change password.')
+			} else {
+				setSuccess(true)
+				setTimeout(() => navigate('/login'), 2000) // Redirect to login after a short delay
+			}
+		} catch (err) {
+			console.error('Error in password change:', err)
+			setError('Server error. Please try again later.')
+		}
 	}
 
 	return (
@@ -32,6 +67,16 @@ function ChangePassword() {
 					<p className='text-sm text-gray-500 text-center mb-6'>
 						Enter your new password below.
 					</p>
+
+					{success && (
+						<p className='text-green-500 text-sm text-center mb-4'>
+							Password changed successfully!
+						</p>
+					)}
+
+					{error && (
+						<p className='text-red-500 text-sm text-center mb-4'>{error}</p>
+					)}
 
 					<form onSubmit={handleSubmit} className='flex flex-col'>
 						<label className='text-gray-600 text-sm font-medium'>
@@ -58,12 +103,9 @@ function ChangePassword() {
 							required
 						/>
 
-						{error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
-
 						<button
 							type='submit'
 							className='mt-4 bg-gray-700 text-white py-2 rounded hover:bg-blue-800 transition'
-							onClick={() => navigate(`/login`)}
 						>
 							Change Password
 						</button>

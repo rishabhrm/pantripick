@@ -46,7 +46,9 @@ const Checkout = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		if (validateForm()) navigate('/order-confirmation')
+		if (validateForm()) {
+			navigate('/order-confirmation', { state: { formData } })
+		}
 	}
 
 	return (
