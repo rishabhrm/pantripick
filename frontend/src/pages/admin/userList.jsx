@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AdminNavbar from "../../components/AdminNavbar";
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -9,12 +10,16 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:4567/api/users/fetch-user");
-        const fetchedUsers = res.data.users.map(user => ({
+        const res = await axios.get(
+          "http://localhost:4567/api/users/fetch-user"
+        );
+        const fetchedUsers = res.data.users.map((user) => ({
           id: user.u_id,
           name: user.u_name,
           email: user.u_email,
-          address: user.u_city
+          phone: user.u_phone,
+          address: user.u_address,
+          city: user.u_city,
         }));
         setUsers(fetchedUsers);
       } catch (error) {
@@ -50,14 +55,16 @@ const UsersList = () => {
   );
 
   const handleRemove = async (userId) => {
-    const confirmed = window.confirm("Are you sure you want to remove this user?");
+    const confirmed = window.confirm(
+      "Are you sure you want to remove this user?"
+    );
     if (!confirmed) return;
 
     try {
       await axios.delete("http://localhost:4567/api/users/admin-delete-user", {
         data: { id: userId },
       });
-      setUsers(prev => prev.filter((user) => user.id !== userId));
+      setUsers((prev) => prev.filter((user) => user.id !== userId));
     } catch (error) {
       console.error("Failed to delete user:", error);
       alert("Failed to delete user.");
@@ -65,51 +72,85 @@ const UsersList = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-white text-black p-6">
-      <h2 className="text-3xl font-bold mb-4">Users List</h2>
-      <input
-        type="text"
-        placeholder="Search for Users..."
-        className="mb-4 p-2 w-full max-w-lg rounded-lg border border-gray-300 bg-white text-black"
-        value={search}
-        onChange={handleSearch}
-      />
-      <div className="overflow-x-auto w-full max-w-4xl">
-        <table className="w-full bg-white text-black shadow-lg rounded-lg overflow-hidden">
-          <thead>
-            <tr className="bg-blue-600 text-white">
-              <th className="p-3 cursor-pointer" onClick={() => handleSort("name")}>Name</th>
-              <th className="p-3 cursor-pointer" onClick={() => handleSort("email")}>Email</th>
-              <th className="p-3">Address</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.length === 0 ? (
-              <tr>
-                <td colSpan="4" className="text-center p-4 text-gray-500">No users found</td>
+    <>
+      <AdminNavbar />
+      <div className="min-h-screen flex flex-col items-center bg-white text-black p-6">
+        <h2 className="text-3xl font-bold mb-4">Users List</h2>
+        <input
+          type="text"
+          placeholder="Search for Users..."
+          className="mb-4 p-2 w-full max-w-lg rounded-lg border border-gray-300 bg-white text-black"
+          value={search}
+          onChange={handleSearch}
+        />
+        <div className="overflow-x-auto w-full max-w-6xl">
+          <table className="w-full bg-white text-black shadow-lg rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-blue-600 text-white">
+                <th
+                  className="p-3 cursor-pointer"
+                  onClick={() => handleSort("name")}
+                >
+                  Name
+                </th>
+                <th
+                  className="p-3 cursor-pointer"
+                  onClick={() => handleSort("email")}
+                >
+                  Email
+                </th>
+                <th
+                  className="p-3 cursor-pointer"
+                  onClick={() => handleSort("phone")}
+                >
+                  Phone
+                </th>
+                <th
+                  className="p-3 cursor-pointer"
+                  onClick={() => handleSort("address")}
+                >
+                  Address
+                </th>
+                <th
+                  className="p-3 cursor-pointer"
+                  onClick={() => handleSort("city")}
+                >
+                  City
+                </th>
+                <th className="p-3">Actions</th>
               </tr>
-            ) : (
-              filteredUsers.map((user, index) => (
-                <tr key={index} className="border-b hover:bg-gray-100">
-                  <td className="p-3 text-center">{user.name}</td>
-                  <td className="p-3 text-center">{user.email}</td>
-                  <td className="p-3 text-center">{user.address}</td>
-                  <td className="p-3 text-center">
-                    <button
-                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700"
-                      onClick={() => handleRemove(user.id)}
-                    >
-                      Remove
-                    </button>
+            </thead>
+            <tbody>
+              {filteredUsers.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="text-center p-4 text-gray-500">
+                    No users found
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredUsers.map((user, index) => (
+                  <tr key={index} className="border-b hover:bg-gray-100">
+                    <td className="p-3 text-center">{user.name}</td>
+                    <td className="p-3 text-center">{user.email}</td>
+                    <td className="p-3 text-center">{user.phone}</td>
+                    <td className="p-3 text-center">{user.address}</td>
+                    <td className="p-3 text-center">{user.city}</td>
+                    <td className="p-3 text-center">
+                      <button
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700"
+                        onClick={() => handleRemove(user.id)}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

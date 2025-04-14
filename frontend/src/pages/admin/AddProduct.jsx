@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import AdminNavbar from "../../components/AdminNavbar";
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -61,6 +62,8 @@ const AddProduct = () => {
   };
 
   return (
+    <>
+      <AdminNavbar />
     <div className="flex flex-col items-center justify-center h-screen px-6">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-4">
@@ -148,6 +151,7 @@ const AddProduct = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

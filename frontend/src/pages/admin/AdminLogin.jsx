@@ -14,7 +14,7 @@ const AdminLogin = () => {
 
     // Hardcoded credentials
     if (email === 'admin@gmail.com' && password === '1234') {
-      navigate('/userlist')
+      navigate('/admin-users')
     } else {
       setError('Invalid email or password')
     }
@@ -26,7 +26,7 @@ const AdminLogin = () => {
       style={{ backgroundImage: "url('/Image/home.png')" }}
     >
       {/* Overlay */}
-      <div className='absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm animate-[bgZoom_10s_infinite_alternate_ease-in-out]'></div>
+      <div className='flex flex-col items-center justify-center h-screen'></div>
 
       {/* Floating Particles */}
       {[...Array(6)].map((_, i) => (
@@ -55,12 +55,13 @@ const AdminLogin = () => {
           />
         </div>
         <div className='flex-1 p-10 text-center'>
-          <h2 className='text-xl font-bold mb-5'>ADMIN LOGIN</h2>
+          <h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>ADMIN LOGIN</h2>
+          <p className='text-sm text-gray-500 text-center mb-6'>Enter your email and password to login.</p>
           <form onSubmit={handleSubmit}>
             <div className='mb-3'>
               <input
                 type='email'
-                className='w-full p-3 rounded-full border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all'
+                className='w-full p-1 rounded border focus:border-blue-500 focus:ring-2 focus:ring-blue-230 transition-all'
                 name='email'
                 placeholder='Enter your email'
                 value={email}
@@ -71,7 +72,7 @@ const AdminLogin = () => {
             <div className='mb-3'>
               <input
                 type='password'
-                className='w-full p-3 rounded-full border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all'
+                className='w-full p-1 rounded border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all'
                 name='password'
                 placeholder='Enter your password'
                 value={password}
@@ -82,7 +83,7 @@ const AdminLogin = () => {
             {error && <p className='text-red-500 mb-3'>{error}</p>}
             <motion.button
               type='submit'
-              className='w-full p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold transition-transform hover:scale-105 shadow-lg'
+              className='w-full p-3 rounded-md bg-gray-700 text-white font-bold transition-transform hover:bg-blue-500 active:bg-gray-500 hover:scale-105 shadow-lg'
               whileTap={{ scale: 0.95 }}
             >
               Login

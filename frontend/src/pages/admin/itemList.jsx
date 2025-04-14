@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { assets } from '../../assets/assets'
+import AdminNavbar from '../../components/AdminNavbar'
 
 const ItemList = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -69,6 +70,8 @@ const ItemList = () => {
   }
 
   return (
+    <>
+      <AdminNavbar />
     <div className='min-h-screen flex flex-col items-center bg-white text-black p-6'>
       <h2 className='text-2xl font-bold mb-4'>Item List</h2>
       <input
@@ -129,6 +132,7 @@ const ItemList = () => {
         </tbody>
       </table>
     </div>
+    </>
   )
 }
 
