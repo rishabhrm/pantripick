@@ -49,7 +49,6 @@ const EditProfile = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-
 		try {
 			await axios.put('http://localhost:4567/api/users/update-user', user, {
 				withCredentials: true,
@@ -67,65 +66,95 @@ const EditProfile = () => {
 	return (
 		<>
 			<Navbar />
-			<div className='max-w-lg mx-auto p-6 bg-white shadow-md rounded-md mt-8'>
-				<h2 className='text-2xl font-bold mb-4'>Edit Profile</h2>
-				<form onSubmit={handleSubmit} className='space-y-4'>
-					<div>
-						<label className='block text-sm font-medium'>Name</label>
-						<input
-							type='text'
-							name='u_name'
-							value={user.u_name}
-							onChange={handleChange}
-							className='w-full p-2 border border-gray-300 rounded'
-						/>
-					</div>
-					<div>
-						<label className='block text-sm font-medium'>Email</label>
-						<input
-							type='email'
-							name='u_email'
-							value={user.u_email}
-							onChange={handleChange}
-							className='w-full p-2 border border-gray-300 rounded'
-						/>
-					</div>
-					<div>
-						<label className='block text-sm font-medium'>Phone</label>
-						<input
-							type='text'
-							name='u_phone'
-							value={user.u_phone}
-							onChange={handleChange}
-							className='w-full p-2 border border-gray-300 rounded'
-						/>
-					</div>
-					<div>
-						<label className='block text-sm font-medium'>Address</label>
-						<textarea
-							name='u_address'
-							value={user.u_address}
-							onChange={handleChange}
-							className='w-full p-2 border border-gray-300 rounded'
-						></textarea>
-					</div>
-					<div>
-						<label className='block text-sm font-medium'>City</label>
-						<input
-							type='text'
-							name='u_city'
-							value={user.u_city}
-							onChange={handleChange}
-							className='w-full p-2 border border-gray-300 rounded'
-						/>
-					</div>
-					<button
-						type='submit'
-						className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-					>
-						Save Changes
-					</button>
-				</form>
+			<div className='flex flex-col items-center justify-center h-screen px-20'>
+				<div className='bg-white p-8 rounded-lg shadow-md w-full max-w-xl'>
+					<h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>
+						Edit Profile
+					</h2>
+					<p className='text-sm text-gray-500 text-center mb-6'>
+						Update your account details below.
+					</p>
+					<form onSubmit={handleSubmit} className='space-y-4'>
+
+						<div>
+							<label className='block text-sm font-medium text-gray-600 mb-1'>
+								Full Name
+							</label>
+							<input
+								type='text'
+								name='u_name'
+								value={user.u_name}
+								onChange={handleChange}
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+								required
+							/>
+						</div>
+
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+							<div>
+								<label className='block text-sm font-medium text-gray-600 mb-1'>
+									Email Address
+								</label>
+								<input
+									type='email'
+									name='u_email'
+									value={user.u_email}
+									onChange={handleChange}
+									className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+									required
+								/>
+							</div>
+							<div>
+								<label className='block text-sm font-medium text-gray-600 mb-1'>
+									Phone Number
+								</label>
+								<input
+									type='text'
+									name='u_phone'
+									value={user.u_phone}
+									onChange={handleChange}
+									className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+									required
+								/>
+							</div>
+						</div>
+
+						<div>
+							<label className='block text-sm font-medium text-gray-600 mb-1'>
+								Address
+							</label>
+							<input
+								type='text'
+								name='u_address'
+								value={user.u_address}
+								onChange={handleChange}
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+								required
+							/>
+						</div>
+
+						<div>
+							<label className='block text-sm font-medium text-gray-600 mb-1'>
+								City
+							</label>
+							<input
+								type='text'
+								name='u_city'
+								value={user.u_city}
+								onChange={handleChange}
+								className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
+								required
+							/>
+						</div>
+
+						<button
+							type='submit'
+							className='w-full bg-gray-700 text-white py-2 rounded-md hover:bg-blue-800 transition'
+						>
+							Save Changes
+						</button>
+					</form>
+				</div>
 			</div>
 		</>
 	)

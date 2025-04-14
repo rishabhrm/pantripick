@@ -48,7 +48,7 @@ function ChangePassword() {
 				setError(response.data.message || 'Failed to change password.')
 			} else {
 				setSuccess(true)
-				setTimeout(() => navigate('/login'), 2000) // Redirect to login after a short delay
+				setTimeout(() => navigate('/login'), 0) // Redirect to login after a short delay
 			}
 		} catch (err) {
 			console.error('Error in password change:', err)
@@ -59,7 +59,7 @@ function ChangePassword() {
 	return (
 		<>
 			<Navbar />
-			<div className='flex flex-col items-center justify-center h-screen bg-yellow-100'>
+			<div className='flex flex-col items-center justify-center h-screen'>
 				<div className='bg-white p-8 rounded-lg shadow-md w-96'>
 					<h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>
 						Change Password

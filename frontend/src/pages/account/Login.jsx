@@ -80,11 +80,11 @@ function Login() {
 						Admin Login
 					</button>
 					<div className='flex justify-center items-center mt-4 text-sm space-x-2'>
-						<a href='/reset-password' className='text-black-500 hover:underline'>
+						<a href='/reset-password' className='text-sm text-gray-500 hover:underline'>
 							Forgot Password?
 						</a>
 						<span className='text-black-500'>|</span>
-						<a href='/signup' className='text-black hover:underline'>
+						<a href='/signup' className='text-sm text-gray-500 hover:underline'>
 							Sign Up
 						</a>
 					</div>
