@@ -35,8 +35,6 @@ import ItemList from './pages/admin/itemList'
 import AddProduct from "./pages/admin/AddProduct"
 import AllOrders from "./pages/admin/Order"; 
 
-
-
 function App() {
   return (
     <>

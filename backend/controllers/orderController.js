@@ -44,12 +44,11 @@ const placeOrder = async (req, res) => {
 				})
 			}
 
-			// Insert into order history
 			await db.query(
 				`INSERT INTO order_history (
             order_id, user_id, recipient_name, phone, email, address,
-            product_id, product_name, quantity
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+            product_id, product_name, quantity, status
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 				[
 					orderId,
 					userId,
@@ -60,19 +59,15 @@ const placeOrder = async (req, res) => {
 					item.product_id,
 					productName,
 					item.quantity,
+					'Confirmed',
 				]
 			)
-
-			// Reduce quantity in product stock
 			await db.query(
 				'UPDATE products SET quantity = quantity - $1 WHERE id = $2',
 				[item.quantity, item.product_id]
 			)
 		}
-
-		// Clear user's cart after placing the order
 		await db.query('DELETE FROM cart_table WHERE user_email = $1', [userEmail])
-
 		res.json({ message: 'Order placed successfully', orderId })
 	} catch (err) {
 		console.error('Error placing order:', err)
@@ -83,10 +78,9 @@ const placeOrder = async (req, res) => {
 const getOrderHistory = async (req, res) => {
 	const userEmail = req.session.user?.email
 	if (!userEmail) return res.status(401).json({ error: 'Not logged in' })
-
 	try {
 		const orders = await db.query(
-			`SELECT order_id, recipient_name, phone, email, address, product_id, product_name, quantity, created_at
+			`SELECT order_id, recipient_name, phone, email, address, product_id, product_name, quantity, created_at, status
        FROM order_history
        WHERE user_id = (SELECT u_id FROM users_table WHERE u_email = $1)
        ORDER BY created_at DESC`,
@@ -98,11 +92,39 @@ const getOrderHistory = async (req, res) => {
 	}
 }
 
+const updateStatus = async (req, res) => {
+	const { orderId } = req.params
+	const { status } = req.body
+
+	if (!['Confirmed', 'Rejected', 'Delivered', 'Cancelled'].includes(status)) {
+		return res.status(400).json({ error: 'Invalid status value' })
+	}
+
+	try {
+		const result = await db.query(
+			'UPDATE order_history SET status = $1 WHERE order_id = $2',
+			[status, orderId]
+		)
+
+		if (result.rowCount > 0) {
+			return res.status(200).json({
+				message: `Order ${orderId} status updated to ${status}.`,
+			})
+		} else {
+			return res
+				.status(404)
+				.json({ error: 'Order not found' })
+		}
+	} catch (error) {
+		console.error('Error updating order status:', error)
+		return res.status(500).json({ error: 'Failed to update order status' })
+	}
+}
+
 const getAllOrders = async (req, res) => {
 	try {
-		// Modified query to include the user name and address along with order details
 		const orders = await db.query(
-			`SELECT order_id, recipient_name, phone, email, address, product_id, product_name, quantity, created_at, 
+			`SELECT order_id, recipient_name, phone, email, address, product_id, product_name, quantity, created_at, status, 
 			(SELECT u_name FROM users_table WHERE u_id = order_history.user_id) AS user_name,
 			(SELECT u_address FROM users_table WHERE u_id = order_history.user_id) AS user_address
 			FROM order_history
@@ -117,9 +139,7 @@ const getAllOrders = async (req, res) => {
 
 const deleteOrders = async (req, res) => {
 	const { orderId } = req.params
-
 	try {
-		// Delete orders from the database by order_id
 		const result = await db.query(
 			'DELETE FROM order_history WHERE order_id = $1',
 			[orderId]
@@ -144,5 +164,6 @@ module.exports = {
 	placeOrder,
 	getOrderHistory,
 	getAllOrders,
+	updateStatus,
 	deleteOrders
 }

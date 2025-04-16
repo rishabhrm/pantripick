@@ -3,7 +3,7 @@ const db = ConnectionObj()
 
 const fetchProduct = async (req, res) => {
 	try {
-		const result = await db.query('SELECT * FROM products;')
+		const result = await db.query('SELECT * FROM products ORDER BY category ASC;')
 		const products = result.rows.map((product) => ({
 			...product,
 			image: `${req.protocol}://${req.get('host')}/images/${product.image}`,
@@ -40,14 +40,12 @@ const fetchProductById = async (req, res) => {
 const addProduct = async (req, res) => {
 	const { name, category, price, description, quantity } = req.body
 	const image = req.file ? req.file.filename : null
-
 	try {
 		const result = await db.query(
 			`INSERT INTO products (name, category, price, description, image, quantity, created_at) 
       VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING *;`,
 			[name, category, price, description, image, quantity]
 		)
-
 		const newProduct = result.rows[0]
 		res
 			.status(201)

@@ -41,13 +41,19 @@ const SignUp = () => {
 				}
 			)
 
-			toast.success('Registration successful!')
+			toast.success('Registration successful!', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
 			navigate('/login')
 		} catch (error) {
 			console.error('Registration error:', error)
 			toast.error(
 				error.response?.data?.error ||
-				'Failed to register user. Please try again.'
+				'Failed to register user. Please try again.', {
+					autoClose: 500,
+					hideProgressBar: true,
+				}
 			)
 		}
 	}

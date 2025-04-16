@@ -1,139 +1,210 @@
 import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { assets } from '../../assets/assets'
 import AdminNavbar from '../../components/AdminNavbar'
 
 const ItemList = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [items, setItems] = useState([])
+	const [searchTerm, setSearchTerm] = useState('')
+	const [items, setItems] = useState([])
 
-  // Fetching data dynamically when the component mounts
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:4567/api/products/fetch-product')
-        const data = await response.json()
-        setItems(data.products)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch(
+					'http://localhost:4567/api/products/fetch-product'
+				)
+				const data = await response.json()
+				setItems(data.products)
+			} catch (error) {
+				toast.error('Failed to fetch products', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+			}
+		}
 
-    fetchData()
-  }, []) // Empty dependency array ensures this runs only once when the component mounts
+		fetchData()
+	}, [])
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value.toLowerCase())
-  }
+	const handleSearch = (e) => {
+		setSearchTerm(e.target.value.toLowerCase())
+	}
 
-  // Function to update the quantity
-  const updateQuantity = async (id, change) => {
-    try {
-      const response = await fetch('http://localhost:4567/api/products/update-quantity', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, change }),
-      })
+	const updateQuantity = async (id, change) => {
+		try {
+			const response = await fetch(
+				'http://localhost:4567/api/products/update-quantity',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ id, change }),
+				}
+			)
 
-      const result = await response.json()
+			const result = await response.json()
 
-      if (response.ok) {
-        // Update item quantity in UI
-        setItems(
-          items.map((item) =>
-            item.id === id ? { ...item, quantity: item.quantity + change } : item
-          )
-        )
-      } else {
-        console.error(result.error)
-      }
-    } catch (error) {
-      console.error('Error updating quantity:', error)
-    }
-  }
+			if (response.ok) {
+				setItems(
+					items.map((item) =>
+						item.id === id
+							? { ...item, quantity: item.quantity + change }
+							: item
+					)
+				)
+				toast.success('Quantity updated successfully', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+			} else {
+				toast.error('Failed to update quantity', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+			}
+		} catch (error) {
+			toast.error('Error updating quantity', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
+		}
+	}
 
-  // Function to remove the product from the database and UI
-  const removeProduct = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:4567/api/products/${id}`, {
-        method: 'DELETE',
-      })
+	const removeProduct = async (id) => {
+		try {
+			const response = await fetch(`http://localhost:4567/api/products/${id}`, {
+				method: 'DELETE',
+			})
 
-      if (response.ok) {
-        // Remove item from the UI state if the delete is successful
-        setItems(items.filter((item) => item.id !== id))
-      } else {
-        console.error('Failed to remove product')
-      }
-    } catch (error) {
-      console.error('Error removing product:', error)
-    }
-  }
+			if (response.ok) {
+				setItems(items.filter((item) => item.id !== id))
+				toast.success('Product removed successfully', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+			} else {
+				toast.error('Failed to remove product', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+			}
+		} catch (error) {
+			toast.error('Error removing product', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
+		}
+	}
 
-  return (
-    <>
-      <AdminNavbar />
-    <div className='min-h-screen flex flex-col items-center bg-white text-black p-6'>
-      <h2 className='text-2xl font-bold mb-4'>Item List</h2>
-      <input
-        type='text'
-        placeholder='Search...'
-        className='p-2 border rounded w-80 mb-4 shadow-md'
-        onChange={handleSearch}
-      />
-      <table className='w-full max-w-3xl bg-white shadow-lg rounded-lg overflow-hidden'>
-        <thead>
-          <tr className='bg-blue-500 text-white'>
-            <th className='p-3'>Image</th>
-            <th className='p-3'>Name</th>
-            <th className='p-3'>Qty</th>
-            <th className='p-3'>Price</th>
-            <th className='p-3'>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items
-            .filter((item) => item.name.toLowerCase().includes(searchTerm))
-            .map((item) => (
-              <tr key={item.id} className='border-b hover:bg-gray-100'>
-                <td className='p-3'>
-                  <img
-                    src={item.image || assets[item.img]}
-                    alt={item.name}
-                    className='w-10 h-10 rounded'
-                  />
-                </td>
-                <td className='p-3'>{item.name}</td>
-                <td className='p-3'>
-                  <button
-                    onClick={() => updateQuantity(item.id, -1)}
-                    className='px-2 border border-gray-300 rounded'
-                  >
-                    -
-                  </button>
-                  <span className='mx-2'>{item.quantity}</span>
-                  <button
-                    onClick={() => updateQuantity(item.id, 1)}
-                    className='px-2 border border-gray-300 rounded'
-                  >
-                    +
-                  </button>
-                </td>
-                <td className='p-3'>₹{item.price}</td>
-                <td className='p-3'>
-                  <button
-                    onClick={() => removeProduct(item.id)}
-                    className='bg-red-500 text-white px-3 py-1 rounded'
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-    </>
-  )
+	const confirmRemoveProduct = (id) => {
+		toast.info(
+			<div>
+				<p>Are you sure you want to remove this product?</p>
+				<div className='flex gap-3 mt-2'>
+					<button
+						onClick={() => {
+							removeProduct(id)
+							toast.dismiss()
+						}}
+						className='bg-red-600 text-white text-xs px-3 py-1 rounded'
+					>
+						Remove
+					</button>
+					<button
+						onClick={() => toast.dismiss()}
+						className='bg-gray-300 text-black text-xs px-3 py-1 rounded'
+					>
+						Cancel
+					</button>
+				</div>
+			</div>,
+			{
+				position: 'top-center',
+				autoClose: false,
+				closeOnClick: false,
+				draggable: false,
+				closeButton: false,
+			}
+		)
+	}
+
+	return (
+		<>
+			<AdminNavbar />
+			<div className='px-6 sm:px-16 lg:px-24 py-10 flex justify-center'>
+				<div className='bg-white border border-gray-200 rounded-lg p-10 w-full max-w-4xl'>
+					<div className='relative inline-block mb-6'>
+						<h2 className='text-black text-2xl sm:text-3xl font-normal inline-block'>
+							MANAGE <span className='font-bold'>PRODUCTS</span>
+						</h2>
+						<span className='absolute left-full top-1/2 -translate-y-1/2 ml-3 w-16 border-t-2 border-black'></span>
+					</div>
+
+					<input
+						type='text'
+						placeholder='Search...'
+						className='p-2 border border-gray-300 rounded w-full mb-6'
+						onChange={handleSearch}
+					/>
+
+					<div className='border border-gray-200 rounded-lg overflow-x-auto'>
+						<table className='w-full text-left border-collapse'>
+							<thead>
+								<tr className='border-b border-gray-200'>
+									<th className='p-3'>Product</th>
+									<th className='p-3'>Price</th>
+									<th className='p-3'>Quantity</th>
+									<th className='p-3'>Remove</th>
+								</tr>
+							</thead>
+							<tbody>
+								{items
+									.filter((item) =>
+										item.name.toLowerCase().includes(searchTerm)
+									)
+									.map((item) => (
+										<tr key={item.id} className='border-b border-gray-200'>
+											<td className='p-3 flex items-center'>
+												<img
+													src={item.image || assets[item.img]}
+													alt={item.name}
+													className='w-12 h-12 mr-4 object-cover rounded'
+												/>
+												{item.name}
+											</td>
+											<td className='p-3'>₹{item.price}</td>
+											<td className='p-3'>
+												<button
+													onClick={() => updateQuantity(item.id, -1)}
+													className='px-2 border border-gray-300 rounded'
+												>
+													-
+												</button>
+												<span className='mx-2'>{item.quantity}</span>
+												<button
+													onClick={() => updateQuantity(item.id, 1)}
+													className='px-2 border border-gray-300 rounded'
+												>
+													+
+												</button>
+											</td>
+											<td className='p-3'>
+												<button
+													onClick={() => confirmRemoveProduct(item.id)}
+													className='text-red-600 hover:underline'
+												>
+													Remove
+												</button>
+											</td>
+										</tr>
+									))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</>
+	)
 }
 
 export default ItemList

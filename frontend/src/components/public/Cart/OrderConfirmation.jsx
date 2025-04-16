@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FiChevronLeft, FiCheckCircle } from 'react-icons/fi'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import Navbar from '../../Navbar'
 
@@ -41,8 +43,15 @@ const OrderConfirmation = () => {
 		})
 
 		await res.json()
-		alert('Order placed successfully!')
-		window.location.href = '/'
+
+		toast.success('Order placed successfully!', {
+			autoClose: 500,
+			hideProgressBar: true
+		})
+
+		setTimeout(() => {
+			window.location.href = '/'
+		}, 500)
 	}
 
 	const { cart, address: f } = orderDetails
@@ -62,8 +71,8 @@ const OrderConfirmation = () => {
 
 					<div className='text-center mb-6'>
 						<FiCheckCircle className='text-green-600 text-4xl mx-auto mb-3' />
-						<h2 className='text-2xl font-bold text-black'>Order Confirmed!</h2>
-						<p className='text-gray-600'>Thank you for your purchase.</p>
+						<h2 className='text-2xl font-bold text-black'>Order Created!</h2>
+						<p className='text-gray-600'>You're just one step away from confirming your order.</p>
 					</div>
 
 					<h3 className='text-lg font-semibold mb-3'>Order Summary</h3>

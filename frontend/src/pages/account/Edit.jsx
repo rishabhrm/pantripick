@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FiChevronLeft } from 'react-icons/fi'
 import axios from 'axios'
 import Navbar from '../../components/Navbar'
 import { toast } from 'react-toastify'
@@ -53,11 +54,17 @@ const EditProfile = () => {
 			await axios.put('http://localhost:4567/api/users/update-user', user, {
 				withCredentials: true,
 			})
-			toast.success('Profile Updated Successfully!')
+			toast.success('Profile Updated Successfully!', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
 			navigate('/profile')
 		} catch (err) {
 			console.error('Update failed:', err)
-			toast.error('Something went wrong.')
+			toast.error('Something went wrong.', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
 		}
 	}
 
@@ -66,8 +73,18 @@ const EditProfile = () => {
 	return (
 		<>
 			<Navbar />
-			<div className='flex flex-col items-center justify-center h-screen px-20'>
+
+			<div className='flex flex-col items-center justify-center h-full px-6 sm:px-20'>
 				<div className='bg-white p-8 rounded-lg shadow-md w-full max-w-xl'>
+					<div className='w-full max-w-xl mb-4'>
+						<button
+							onClick={() => navigate('/profile')}
+							className='text-black flex items-center text-sm'
+						>
+							<FiChevronLeft className='mr-2 text-lg' />
+							Back to Profile
+						</button>
+					</div>
 					<h2 className='text-2xl font-bold text-center text-gray-700 mb-4'>
 						Edit Profile
 					</h2>
@@ -75,7 +92,6 @@ const EditProfile = () => {
 						Update your account details below.
 					</p>
 					<form onSubmit={handleSubmit} className='space-y-4'>
-
 						<div>
 							<label className='block text-sm font-medium text-gray-600 mb-1'>
 								Full Name
@@ -99,9 +115,8 @@ const EditProfile = () => {
 									type='email'
 									name='u_email'
 									value={user.u_email}
-									onChange={handleChange}
-									className='p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-gray-300'
-									required
+									readOnly
+									className='p-2 w-full border rounded bg-gray-100 text-gray-600 cursor-not-allowed'
 								/>
 							</div>
 							<div>

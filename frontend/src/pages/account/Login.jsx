@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Navbar from '../../components/Navbar'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function Login() {
 	const navigate = useNavigate()
@@ -11,6 +13,11 @@ function Login() {
 	const handleLogin = async (e) => {
 		e.preventDefault()
 
+		if (!email || !password) {
+			toast.error('Please fill in both fields.')
+			return
+		}
+
 		try {
 			const response = await axios.post(
 				'http://localhost:4567/api/users/login-user',
@@ -19,15 +26,25 @@ function Login() {
 			)
 
 			if (response.data && response.data.user) {
-				console.log('Login successful:', response.data.user)
-				navigate('/')
-				window.location.reload()
+				toast.success('Login successful!', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+				setTimeout(() => {
+					navigate('/')
+					window.location.reload()
+				}, 500)
 			} else {
-				alert('Invalid credentials!')
+				toast.error('Invalid Credentials.', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
 			}
 		} catch (error) {
-			console.error('Login failed:', error)
-			alert('Login failed. Please check your credentials.')
+			toast.error('Login failed. Please check your credentials.', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
 		}
 	}
 
@@ -80,7 +97,10 @@ function Login() {
 						Admin Login
 					</button>
 					<div className='flex justify-center items-center mt-4 text-sm space-x-2'>
-						<a href='/reset-password' className='text-sm text-gray-500 hover:underline'>
+						<a
+							href='/reset-password'
+							className='text-sm text-gray-500 hover:underline'
+						>
 							Forgot Password?
 						</a>
 						<span className='text-black-500'>|</span>
@@ -88,7 +108,6 @@ function Login() {
 							Sign Up
 						</a>
 					</div>
-
 				</div>
 			</div>
 		</>

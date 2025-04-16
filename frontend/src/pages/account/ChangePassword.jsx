@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function ChangePassword() {
 	const navigate = useNavigate()
@@ -14,11 +16,11 @@ function ChangePassword() {
 	const otp = location?.state?.otp
 	const email = location?.state?.email
 
-	console.log('Location state:', location.state) // Debugging log to check if email is passed correctly
+	console.log('Location state:', location.state)
 
 	useEffect(() => {
 		if (!otp) {
-			navigate('/otp') // Redirect to OTP page if OTP is not available
+			navigate('/otp')
 		}
 	}, [otp, navigate])
 
@@ -27,32 +29,45 @@ function ChangePassword() {
 
 		if (newPassword !== confirmPassword) {
 			setError('Passwords do not match!')
+			toast.error('Passwords do not match!', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
 			return
 		}
 
 		setError('')
 
 		try {
-			console.log('Sending data to backend:', { otp, newPassword, email })
-
 			const response = await axios.post(
 				'http://localhost:4567/api/pass/pass-reset',
 				{
 					otp,
 					newPassword,
-					email, // Send OTP, new password, and email to backend
+					email,
 				}
 			)
 
 			if (response.status !== 200) {
 				setError(response.data.message || 'Failed to change password.')
+				toast.error(response.data.message || 'Failed to change password.', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
 			} else {
 				setSuccess(true)
-				setTimeout(() => navigate('/login'), 0) // Redirect to login after a short delay
+				toast.success('Password changed successfully!', {
+					autoClose: 500,
+					hideProgressBar: true,
+				})
+				setTimeout(() => navigate('/login'), 500)
 			}
 		} catch (err) {
-			console.error('Error in password change:', err)
 			setError('Server error. Please try again later.')
+			toast.error('Server error. Please try again later.', {
+				autoClose: 500,
+				hideProgressBar: true,
+			})
 		}
 	}
 
@@ -67,16 +82,6 @@ function ChangePassword() {
 					<p className='text-sm text-gray-500 text-center mb-6'>
 						Enter your new password below.
 					</p>
-
-					{success && (
-						<p className='text-green-500 text-sm text-center mb-4'>
-							Password changed successfully!
-						</p>
-					)}
-
-					{error && (
-						<p className='text-red-500 text-sm text-center mb-4'>{error}</p>
-					)}
 
 					<form onSubmit={handleSubmit} className='flex flex-col'>
 						<label className='text-gray-600 text-sm font-medium'>
